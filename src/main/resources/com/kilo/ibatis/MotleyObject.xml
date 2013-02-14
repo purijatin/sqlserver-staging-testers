@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Motley">
+
+    <insert id="createStageTable" parameterClass="java.util.Map">
+        SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
+          INTO $stageTableName$
+          FROM $templateDB$..$templateTable$
+    </insert>
+    
+    <insert id="multiInsertStage" parameterClass="java.util.Map">
+        INSERT INTO $stageTableName$(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
+        VALUES (#rec.date#, #rec.name#, #rec.id#, #rec.price#, #rec.amount#, 
+                #rec.fxRate#, #rec.isValid#, #rec.knowledgeTime#)
+    </insert>
+</sqlMap>
