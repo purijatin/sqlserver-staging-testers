@@ -25,6 +25,9 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Resource(name = "multiInsertSJDBCStageDAO")
     private StageDAO multiInsertSJDBCStageDAO;
 
+    @Resource(name = "multiInsertJDBCStageDAO")
+    private StageDAO multiInsertJDBCStageDAO;
+
     @Test
     public void testMultiInsertIbatisStageDAO() throws ParseException {
         testScaffolding(multiInsertIbatisStageDAO);
@@ -33,6 +36,11 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Test
     public void testMultiSJDBCIbatisStageDAO() throws ParseException {
         testScaffolding(multiInsertSJDBCStageDAO);
+    }
+
+    @Test
+    public void testMultiJDBCIbatisStageDAO() throws ParseException {
+        testScaffolding(multiInsertJDBCStageDAO);
     }
 
     private void testScaffolding(StageDAO stageDAO) throws ParseException {

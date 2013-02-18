@@ -13,4 +13,8 @@
     <bean id="multiInsertSJDBCStageDAO" class="com.kilo.dao.impl.sjdbc.MultiInsertStageDAO">
         <property name="dataSource" ref="testerDataSource" />
     </bean>
+
+    <bean id="multiInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.MultiInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
 </beans>
