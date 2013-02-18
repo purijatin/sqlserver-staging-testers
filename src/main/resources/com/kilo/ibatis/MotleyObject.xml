@@ -13,4 +13,9 @@
         VALUES (#rec.date#, #rec.name#, #rec.id#, #rec.price#, #rec.amount#, 
                 #rec.fxRate#, #rec.isValid#, #rec.knowledgeTime#)
     </insert>
+
+    <delete id="multiInsertStageDrop" parameterClass="java.util.Map">
+        DROP TABLE $stageDBName$..$stageTableName$
+    </delete>
+
 </sqlMap>

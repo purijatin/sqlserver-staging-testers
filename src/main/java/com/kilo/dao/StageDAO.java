@@ -20,4 +20,6 @@ public interface StageDAO {
      */
     StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable);
+
+    void dropStageTable(StageResult stageResult);
 }

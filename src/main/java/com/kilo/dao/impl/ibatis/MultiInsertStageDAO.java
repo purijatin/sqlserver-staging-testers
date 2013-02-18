@@ -1,7 +1,6 @@
 
 package com.kilo.dao.impl.ibatis;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.kilo.dao.StageDAO;
+import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
@@ -20,8 +20,7 @@ public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
             String templateTable) {
 
         // Create the table from the template
-        String stageTableName = templateTable + "_" + new Date().getTime()
-                + "_" + Thread.currentThread().getId();
+        String stageTableName = StageUtils.getStageTableName(templateTable);
 
         Map<String, Object> stageTableCreationParamMap = new HashMap<>();
         stageTableCreationParamMap.put("templateDB", templateDB);
@@ -43,6 +42,15 @@ public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
         result.setDbName(templateDB);
         result.setTableName(stageTableName);
         return result;
+    }
+
+    @Override
+    public void dropStageTable(StageResult stageResult) {
+        Map<String, Object> stageParamMap = new HashMap<>();
+        stageParamMap.put("stageDBName", stageResult.getDbName());
+        stageParamMap.put("stageTableName", stageResult.getTableName());
+        getSqlMapClientTemplate().delete("Motley.multiInsertStageDrop",
+                stageParamMap);
     }
 
 }
