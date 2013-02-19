@@ -30,5 +30,16 @@
         <property name="dataSource" ref="testerDataSource" />
     </bean>
 
+    <bean id="batchInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.BatchInsertStageDAO">
+        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+    </bean>
+
+    <bean id="batchInsertSJDBCStageDAO" class="com.kilo.dao.impl.sjdbc.BatchInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
+    <bean id="batchInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.BatchInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
 
 </beans>

@@ -1,23 +1,27 @@
 
 package com.kilo.dao.impl.ibatis;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.orm.ibatis.SqlMapClientCallback;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
+import com.google.common.collect.Lists;
+import com.ibatis.sqlmap.client.SqlMapExecutor;
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
-public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
+public class BatchInsertStageDAO extends SqlMapClientDaoSupport implements
         StageDAO {
 
     @Override
-    public StageResult stage(List<MotleyObject> records, String templateDB,
-            String templateTable) {
+    public StageResult stage(final List<MotleyObject> records,
+            String templateDB, String templateTable) {
 
         // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
@@ -30,13 +34,32 @@ public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
                 stageTableCreationParamMap);
 
         // Insert into the table
-        Map<String, Object> stageParamMap = new HashMap<>();
+
+        final Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageTableName", stageTableName);
-        for (MotleyObject rec : records) {
-            stageParamMap.put("rec", rec);
-            getSqlMapClientTemplate().insert("Motley.insertStage",
-                    stageParamMap);
-        }
+
+        SqlMapClientCallback<Object> action = new SqlMapClientCallback<Object>() {
+
+            @Override
+            public Object doInSqlMapClient(SqlMapExecutor executor)
+                    throws SQLException {
+
+                int updates = 0;
+                List<List<MotleyObject>> partitions = Lists.partition(records,
+                        batchSize);
+                for (List<MotleyObject> partition : partitions) {
+                    executor.startBatch();
+                    for (MotleyObject rec : partition) {
+                        stageParamMap.put("rec", rec);
+                        executor.insert("Motley.insertStage", stageParamMap);
+                    }
+                    int update = executor.executeBatch();
+                    updates = updates + update;
+                }
+                return Integer.valueOf(updates);
+            }
+        };
+        getSqlMapClientTemplate().execute(action);
 
         StageResult result = new StageResult();
         result.setDbName(templateDB);

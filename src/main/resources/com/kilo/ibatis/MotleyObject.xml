@@ -8,7 +8,7 @@
           FROM $templateDB$..$templateTable$
     </insert>
     
-    <insert id="multiInsertStage" parameterClass="java.util.Map">
+    <insert id="insertStage" parameterClass="java.util.Map">
         INSERT INTO $stageTableName$(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
         VALUES (#rec.date#, #rec.name#, #rec.id#, #rec.price#, #rec.amount#, 
                 #rec.fxRate#, #rec.isValid#, #rec.knowledgeTime#)
@@ -21,7 +21,7 @@
         </iterate>
     </insert>
 
-    <delete id="multiInsertStageDrop" parameterClass="java.util.Map">
+    <delete id="insertStageDrop" parameterClass="java.util.Map">
         DROP TABLE $stageDBName$..$stageTableName$
     </delete>
 

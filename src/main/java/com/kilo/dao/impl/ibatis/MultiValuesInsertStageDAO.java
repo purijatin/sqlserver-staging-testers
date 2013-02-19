@@ -47,7 +47,7 @@ public class MultiValuesInsertStageDAO extends SqlMapClientDaoSupport implements
         Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageDBName", stageResult.getDbName());
         stageParamMap.put("stageTableName", stageResult.getTableName());
-        getSqlMapClientTemplate().delete("Motley.multiInsertStageDrop",
+        getSqlMapClientTemplate().delete("Motley.insertStageDrop",
                 stageParamMap);
     }
 

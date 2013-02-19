@@ -8,6 +8,8 @@ import com.kilo.domain.StageResult;
 
 public interface StageDAO {
 
+    public static final int batchSize = 10000;
+
     /**
      * Stages the given records using the given template table in the template
      * DB
