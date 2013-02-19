@@ -15,7 +15,8 @@ public class SQLServerStagingDriver {
     public static void main(String[] args) {
         LOG.info("Starting context load");
         applicationContext = new ClassPathXmlApplicationContext(
-                "classpath:com/kilo/applicationContext.xml");
+                "classpath:com/kilo/applicationContext.xml",
+                "classpath:com/kilo/logging.xml");
         LOG.info("Inited");
         makeServiceCalls();
         System.exit(0);

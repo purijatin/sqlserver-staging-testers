@@ -9,7 +9,7 @@
     <bean id="multiInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.MultiInsertStageDAO">
         <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
     </bean>
-    
+
     <bean id="multiInsertSJDBCStageDAO" class="com.kilo.dao.impl.sjdbc.MultiInsertStageDAO">
         <property name="dataSource" ref="testerDataSource" />
     </bean>
@@ -17,4 +17,18 @@
     <bean id="multiInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.MultiInsertStageDAO">
         <property name="dataSource" ref="testerDataSource" />
     </bean>
+
+    <bean id="multiValuesInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.MultiValuesInsertStageDAO">
+        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+    </bean>
+
+    <bean id="multiValuesInsertSJDBCStageDAO" class="com.kilo.dao.impl.sjdbc.MultiValuesInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
+    <bean id="multiValuesInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.MultiValuesInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
+
 </beans>

@@ -14,6 +14,13 @@
                 #rec.fxRate#, #rec.isValid#, #rec.knowledgeTime#)
     </insert>
 
+    <insert id="multiValuesInsertStage" parameterClass="java.util.Map">
+        INSERT INTO $stageTableName$(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
+        <iterate property="records" prepend="VALUES" conjunction=",">
+        (#records[].date#, #records[].name#, #records[].id#, #records[].price#, #records[].amount#,#records[].fxRate#, #records[].isValid#, #records[].knowledgeTime#)
+        </iterate>
+    </insert>
+
     <delete id="multiInsertStageDrop" parameterClass="java.util.Map">
         DROP TABLE $stageDBName$..$stageTableName$
     </delete>
