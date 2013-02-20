@@ -61,4 +61,10 @@
         <property name="dirPath" value="${com.kilo.dir.path}" />
     </bean>
 
+    <bean id="bulkInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.BulkInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+    </bean>
+
 </beans>
