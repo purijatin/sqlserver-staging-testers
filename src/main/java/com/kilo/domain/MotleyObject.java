@@ -4,7 +4,11 @@ package com.kilo.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.apache.commons.lang.time.DateFormatUtils;
+
 public class MotleyObject {
+
+    public static final String BULK_INSERT_FIELD_SEPARATOR = "\t";
 
     private Date date;
 
@@ -102,4 +106,23 @@ public class MotleyObject {
         this.knowledgeTime = knowledgeTime;
     }
 
+    public String toBulkInsertString() {
+        StringBuilder bulkInsertString = new StringBuilder();
+        bulkInsertString.append(
+                DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS"))
+                .append(BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append(name).append(BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append(id).append(BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append(price.toPlainString()).append(
+                BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append(amount.toPlainString()).append(
+                BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append(fxRate.toPlainString()).append(
+                BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append((isValid != null) ? (isValid ? "1" : "0") : "")
+                .append(BULK_INSERT_FIELD_SEPARATOR);
+        bulkInsertString.append(DateFormatUtils.formatUTC(knowledgeTime,
+                "yyyyMMdd hh:mm:ss.SSS"));
+        return bulkInsertString.toString();
+    }
 }

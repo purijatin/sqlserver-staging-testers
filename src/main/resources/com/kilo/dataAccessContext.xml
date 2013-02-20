@@ -12,9 +12,9 @@
         </property>
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
         <property name="url"
-            value="jdbc:jtds:sqlserver://DBDEVHYD1DS1:1433/sandbox;appName=${com.kilo.application.name}" />
-        <property name="username" value="guestuser" />
-        <property name="password" value="deshaw" />
+            value="jdbc:jtds:sqlserver://${com.kilo.dataserver}:1433/sandbox;appName=${com.kilo.application.name}" />
+        <property name="username" value="${com.kilo.username}" />
+        <property name="password" value="${com.kilo.password}" />
     </bean>
     
     <bean id="testerSqlMapClient"

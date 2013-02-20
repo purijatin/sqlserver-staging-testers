@@ -42,4 +42,11 @@
         <property name="dataSource" ref="testerDataSource" />
     </bean>
 
+    <bean id="bcpIbatisStageDAO" class="com.kilo.dao.impl.ibatis.bcp.BCPStageDAO">
+        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+        <property name="username" value="${com.kilo.username}" />
+        <property name="password" value="${com.kilo.password}" />
+        <property name="server" value="${com.kilo.dataserver}" />
+    </bean>
+
 </beans>
