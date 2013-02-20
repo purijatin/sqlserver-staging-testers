@@ -25,4 +25,9 @@
         DROP TABLE $stageDBName$..$stageTableName$
     </delete>
 
+    <insert id="bulkInsertStage" parameterClass="java.util.Map">
+        BULK INSERT $stageTableName$
+               FROM '$fileUNCPath$'
+    </insert>
+
 </sqlMap>

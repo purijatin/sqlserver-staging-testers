@@ -49,4 +49,10 @@
         <property name="server" value="${com.kilo.dataserver}" />
     </bean>
 
+    <bean id="bulkInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.BulkInsertStageDAO">
+        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+    </bean>
+
 </beans>

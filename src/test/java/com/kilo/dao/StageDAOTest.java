@@ -57,6 +57,9 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Resource(name = "bcpIbatisStageDAO")
     private StageDAO bcpIbatisStageDAO;
 
+    @Resource(name = "bulkInsertIbatisStageDAO")
+    private StageDAO bulkInsertIbatisStageDAO;
+
     @Test
     public void testMultiInsertIbatisStageDAO() throws ParseException {
         testScaffolding(multiInsertIbatisStageDAO, smallSize, largeSize);
@@ -108,6 +111,11 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Test
     public void testBcpIbatisStageDAO() throws ParseException {
         testScaffolding(bcpIbatisStageDAO, smallSize, largeSize);
+    }
+
+    @Test
+    public void testBulkIbatisStageDAO() throws ParseException {
+        testScaffolding(bulkInsertIbatisStageDAO, smallSize, largeSize);
     }
 
     private void testScaffolding(StageDAO stageDAO, int smallSize, int largeSize)

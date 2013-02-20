@@ -10,6 +10,8 @@ public interface StageDAO {
 
     public static final int batchSize = 10000;
 
+    public static final String BULK_INSERT_ROW_SEPARATOR = "\r\n";
+
     /**
      * Stages the given records using the given template table in the template
      * DB
