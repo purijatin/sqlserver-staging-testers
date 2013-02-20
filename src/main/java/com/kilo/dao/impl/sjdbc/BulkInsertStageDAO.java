@@ -1,22 +1,19 @@
 
-package com.kilo.dao.impl.ibatis;
+package com.kilo.dao.impl.sjdbc;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
-public class BulkInsertStageDAO extends SqlMapClientDaoSupport implements
-        StageDAO {
+public class BulkInsertStageDAO extends JdbcDaoSupport implements StageDAO {
 
     private String uncPathPrefix;
 
@@ -25,15 +22,10 @@ public class BulkInsertStageDAO extends SqlMapClientDaoSupport implements
     @Override
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
-        // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
-
-        Map<String, Object> stageTableCreationParamMap = new HashMap<>();
-        stageTableCreationParamMap.put("templateDB", templateDB);
-        stageTableCreationParamMap.put("templateTable", templateTable);
-        stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlMapClientTemplate().insert("Motley.createStageTable",
-                stageTableCreationParamMap);
+        String createTableDDL = "SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time INTO "
+                + stageTableName + " FROM " + templateDB + ".." + templateTable;
+        getJdbcTemplate().update(createTableDDL);
 
         StringBuffer content = new StringBuffer();
         for (MotleyObject rec : records) {
@@ -51,13 +43,11 @@ public class BulkInsertStageDAO extends SqlMapClientDaoSupport implements
         }
 
         // Use T-SQL to bulk insert
-        Map<String, Object> stageParamMap = new HashMap<>();
-        stageParamMap.put("stageTableName", stageTableName);
         String fileUNCPath = uncPathPrefix
                 + file.getAbsolutePath().replace(File.separatorChar, '\\');
-        stageParamMap.put("fileUNCPath", fileUNCPath);
-        getSqlMapClientTemplate().insert("Motley.bulkInsertStage",
-                stageParamMap);
+        String bulkInsertDML = "BULK INSERT " + stageTableName + " FROM '"
+                + fileUNCPath + "'";
+        getJdbcTemplate().update(bulkInsertDML);
 
         // Politely cleanup
         FileUtils.deleteQuietly(file);
@@ -70,11 +60,9 @@ public class BulkInsertStageDAO extends SqlMapClientDaoSupport implements
 
     @Override
     public void dropStageTable(StageResult stageResult) {
-        Map<String, Object> stageParamMap = new HashMap<>();
-        stageParamMap.put("stageDBName", stageResult.getDbName());
-        stageParamMap.put("stageTableName", stageResult.getTableName());
-        getSqlMapClientTemplate().delete("Motley.insertStageDrop",
-                stageParamMap);
+        getJdbcTemplate().execute(
+                "DROP TABLE " + stageResult.getDbName() + ".."
+                        + stageResult.getTableName());
     }
 
     public void setUncPathPrefix(String uncPathPrefix) {
@@ -84,5 +72,4 @@ public class BulkInsertStageDAO extends SqlMapClientDaoSupport implements
     public void setDirPath(String dirPath) {
         this.dirPath = dirPath;
     }
-
 }
