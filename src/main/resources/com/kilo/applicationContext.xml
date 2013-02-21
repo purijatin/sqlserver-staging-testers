@@ -67,4 +67,37 @@
         <property name="dirPath" value="${com.kilo.dir.path}" />
     </bean>
 
+    <bean id="openrowsetInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.OpenrowsetInsertStageDAO">
+        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+        <property name="formatFilePath" value="${com.kilo.fmt.file.location}" />
+    </bean>
+
+    <bean id="openrowsetInsertSJDBCStageDAO" class="com.kilo.dao.impl.sjdbc.OpenrowsetInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+        <property name="formatFilePath" value="${com.kilo.fmt.file.location}" />
+    </bean>
+
+    <bean id="openrowsetInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.OpenrowsetInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+        <property name="formatFilePath" value="${com.kilo.fmt.file.location}" />
+    </bean>
+
+    <bean id="xmlShredderInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.XMLShredderInsertStageDAO">
+        <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
+    </bean>
+
+    <bean id="xmlShredderInsertSJDBCStageDAO" class="com.kilo.dao.impl.sjdbc.XMLShredderInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
+    <bean id="xmlShredderInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.XMLShredderInsertStageDAO">
+        <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
 </beans>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,8 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(StageDAOTest.class);
+
+    private static final StopWatch sw = new StopWatch("StagingStopWatch");
 
     private final static int smallSize = 1000;
 
@@ -65,6 +68,24 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Resource(name = "bulkInsertJDBCStageDAO")
     private StageDAO bulkInsertJDBCStageDAO;
+
+    @Resource(name = "openrowsetInsertIbatisStageDAO")
+    private StageDAO openrowsetInsertIbatisStageDAO;
+
+    @Resource(name = "openrowsetInsertSJDBCStageDAO")
+    private StageDAO openrowsetInsertSJDBCStageDAO;
+
+    @Resource(name = "openrowsetInsertJDBCStageDAO")
+    private StageDAO openrowsetInsertJDBCStageDAO;
+
+    @Resource(name = "xmlShredderInsertIbatisStageDAO")
+    private StageDAO xmlShredderInsertIbatisStageDAO;
+
+    @Resource(name = "xmlShredderInsertSJDBCStageDAO")
+    private StageDAO xmlShredderInsertSJDBCStageDAO;
+
+    @Resource(name = "xmlShredderInsertJDBCStageDAO")
+    private StageDAO xmlShredderInsertJDBCStageDAO;
 
     @Test
     public void testMultiInsertIbatisStageDAO() throws ParseException {
@@ -134,11 +155,38 @@ public class StageDAOTest extends BaseStageDAOTest {
         testScaffolding(bulkInsertJDBCStageDAO, smallSize, largeSize);
     }
 
+    @Test
+    public void testOpenrowsetIbatisStageDAO() throws ParseException {
+        testScaffolding(openrowsetInsertIbatisStageDAO, smallSize, largeSize);
+    }
+
+    @Test
+    public void testOpenrowsetSJDBCStageDAO() throws ParseException {
+        testScaffolding(openrowsetInsertSJDBCStageDAO, smallSize, largeSize);
+    }
+
+    @Test
+    public void testOpenrowsetJDBCStageDAO() throws ParseException {
+        testScaffolding(openrowsetInsertJDBCStageDAO, smallSize, largeSize);
+    }
+
+    @Test
+    public void testXMLShredderIbatisStageDAO() throws ParseException {
+        testScaffolding(xmlShredderInsertIbatisStageDAO, smallSize, largeSize);
+    }
+
+    @Test
+    public void testXMLShredderSJDBCStageDAO() throws ParseException {
+        testScaffolding(xmlShredderInsertSJDBCStageDAO, smallSize, largeSize);
+    }
+
+    @Test
+    public void testXMLShredderJDBCStageDAO() throws ParseException {
+        testScaffolding(xmlShredderInsertJDBCStageDAO, smallSize, largeSize);
+    }
+
     private void testScaffolding(StageDAO stageDAO, int smallSize, int largeSize)
             throws ParseException {
-
-        StopWatch sw = new StopWatch();
-
         sw.start(CREATING_TEST_RECORDS);
         List<MotleyObject> testRecords = getTestRecords(smallSize);
         sw.stop();
@@ -168,7 +216,10 @@ public class StageDAOTest extends BaseStageDAOTest {
         stageDAO.dropStageTable(stageResult);
         sw.stop();
 
-        LOG.info(sw.prettyPrint());
+    }
 
+    @AfterClass
+    public static void postProcess() {
+        LOG.info(sw.prettyPrint());
     }
 }

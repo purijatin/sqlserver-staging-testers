@@ -1,0 +1,10 @@
+10.0
+8
+1       SQLCHAR       0       0       "\t"       1     date                         ""
+2       SQLCHAR       0       0       "\t"       2     name                         ""
+3       SQLCHAR       0       0       "\t"       3     id                           ""
+4       SQLCHAR       0       0       "\t"       4     price                        ""
+5       SQLCHAR       0       0       "\t"       5     amount                       ""
+6       SQLCHAR       0       0       "\t"       6     fx_rate                      ""
+7       SQLCHAR       0       0       "\t"       7     is_valid                     ""
+8       SQLCHAR       0       0       "\r\n"     8     knowledge_time               ""

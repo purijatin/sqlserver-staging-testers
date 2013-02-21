@@ -125,4 +125,37 @@ public class MotleyObject {
                 "yyyyMMdd hh:mm:ss.SSS"));
         return bulkInsertString.toString();
     }
+
+    public String toXMLInsertString() {
+        StringBuilder xmlInsertString = new StringBuilder();
+        xmlInsertString.append("<r>");
+        xmlInsertString.append("<d>");
+        xmlInsertString.append(DateFormatUtils.formatUTC(date,
+                "yyyyMMdd hh:mm:ss.SSS"));
+        xmlInsertString.append("</d>");
+        xmlInsertString.append("<n>");
+        xmlInsertString.append(name);
+        xmlInsertString.append("</n>");
+        xmlInsertString.append("<i>");
+        xmlInsertString.append(id);
+        xmlInsertString.append("</i>");
+        xmlInsertString.append("<p>");
+        xmlInsertString.append(price.toPlainString());
+        xmlInsertString.append("</p>");
+        xmlInsertString.append("<a>");
+        xmlInsertString.append(amount.toPlainString());
+        xmlInsertString.append("</a>");
+        xmlInsertString.append("<f>");
+        xmlInsertString.append(fxRate.toPlainString());
+        xmlInsertString.append("</f>");
+        xmlInsertString.append("<v>");
+        xmlInsertString.append((isValid != null) ? (isValid ? "1" : "0") : "");
+        xmlInsertString.append("</v>");
+        xmlInsertString.append("<k>");
+        xmlInsertString.append(DateFormatUtils.formatUTC(knowledgeTime,
+                "yyyyMMdd hh:mm:ss.SSS"));
+        xmlInsertString.append("</k>");
+        xmlInsertString.append("</r>");
+        return xmlInsertString.toString();
+    }
 }

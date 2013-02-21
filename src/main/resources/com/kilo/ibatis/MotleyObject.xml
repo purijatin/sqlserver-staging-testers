@@ -30,4 +30,27 @@
                FROM '$fileUNCPath$'
     </insert>
 
+    <insert id="openrowsetInsertStage" parameterClass="java.util.Map">
+        INSERT INTO $stageTableName$
+        SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
+          FROM OPENROWSET
+               ( BULK '$fileUNCPath$', FORMATFILE='$formatFileUNCPath$') AS a
+    </insert>
+
+    <insert id="xmlInsertStage" parameterClass="java.util.Map">
+        DECLARE @xml XML
+        SET @xml = #xml#
+        
+        INSERT INTO $stageTableName$
+        SELECT row.col.value('(d/text())[1]', 'datetime') AS date, 
+               row.col.value('(n/text())[1]', 'varchar') AS name, 
+               row.col.value('(i/text())[1]', 'integer') AS id, 
+               row.col.value('(p/text())[1]', 'numeric(18,4)') AS price, 
+               row.col.value('(a/text())[1]', 'numeric(18,4)') AS amount, 
+               row.col.value('(f/text())[1]', 'numeric(18,7)') AS fx_rate, 
+               row.col.value('(v/text())[1]', 'tinyint') AS is_valid, 
+               row.col.value('(k/text())[1]', 'datetime') AS knowledge_time
+          FROM @xml.nodes('//r') row(col) 
+    </insert>
+
 </sqlMap>
