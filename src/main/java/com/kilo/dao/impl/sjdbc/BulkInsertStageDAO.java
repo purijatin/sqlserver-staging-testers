@@ -27,7 +27,7 @@ public class BulkInsertStageDAO extends JdbcDaoSupport implements StageDAO {
                 + stageTableName + " FROM " + templateDB + ".." + templateTable;
         getJdbcTemplate().update(createTableDDL);
 
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
             content.append(rec.toBulkInsertString() + BULK_INSERT_ROW_SEPARATOR);
         }

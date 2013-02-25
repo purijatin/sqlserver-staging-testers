@@ -43,7 +43,7 @@ public class OpenrowsetInsertStageDAO implements StageDAO {
             createStatement.executeUpdate(createTableDDL);
             createStatement.close();
 
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             for (MotleyObject rec : records) {
                 content.append(rec.toBulkInsertString()
                         + BULK_INSERT_ROW_SEPARATOR);

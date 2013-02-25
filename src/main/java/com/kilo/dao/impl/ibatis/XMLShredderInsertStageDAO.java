@@ -28,7 +28,7 @@ public class XMLShredderInsertStageDAO extends SqlMapClientDaoSupport implements
         getSqlMapClientTemplate().insert("Motley.createStageTable",
                 stageTableCreationParamMap);
 
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
             content.append(rec.toXMLInsertString());
         }

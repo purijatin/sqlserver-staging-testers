@@ -21,7 +21,7 @@ public class XMLShredderInsertStageDAO extends JdbcDaoSupport implements
                 + stageTableName + " FROM " + templateDB + ".." + templateTable;
         getJdbcTemplate().update(createTableDDL);
 
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
             content.append(rec.toXMLInsertString());
         }

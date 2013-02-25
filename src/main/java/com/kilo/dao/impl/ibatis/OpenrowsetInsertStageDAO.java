@@ -37,7 +37,7 @@ public class OpenrowsetInsertStageDAO extends SqlMapClientDaoSupport implements
         getSqlMapClientTemplate().insert("Motley.createStageTable",
                 stageTableCreationParamMap);
 
-        StringBuffer content = new StringBuffer();
+        StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
             content.append(rec.toBulkInsertString() + BULK_INSERT_ROW_SEPARATOR);
         }
