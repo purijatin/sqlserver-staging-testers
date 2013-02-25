@@ -22,13 +22,8 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     private static final StopWatch sw = new StopWatch("StagingStopWatch");
 
-    private final static int smallSize = 1000;
-
-    private final static int largeSize = 100_000;
-
-    private static final int anotherReallySmallSize = 120;
-
-    private static final int reallySmallSize = 100;
+    public StageDAOTest() {
+    }
 
     @Resource(name = "multiInsertIbatisStageDAO")
     private StageDAO multiInsertIbatisStageDAO;
@@ -89,111 +84,124 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Test
     public void testMultiInsertIbatisStageDAO() throws ParseException {
-        testScaffolding(multiInsertIbatisStageDAO, smallSize, largeSize);
+        testScaffolding(multiInsertIbatisStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testMultiSJDBCStageDAO() throws ParseException {
-        testScaffolding(multiInsertSJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(multiInsertSJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testMultiJDBCStageDAO() throws ParseException {
-        testScaffolding(multiInsertJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(multiInsertJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testMultiValuesIbatisStageDAO() throws ParseException {
-        testScaffolding(multiValuesInsertIbatisStageDAO, reallySmallSize,
-                anotherReallySmallSize);
+        testScaffolding(multiValuesInsertIbatisStageDAO,
+                reallySmallTestRecords, anotherReallySmallTestRecords);
     }
 
     @Test
     public void testMultiValuesSJDBCStageDAO() throws ParseException {
-        testScaffolding(multiValuesInsertSJDBCStageDAO, reallySmallSize,
-                anotherReallySmallSize);
+        testScaffolding(multiValuesInsertSJDBCStageDAO, reallySmallTestRecords,
+                anotherReallySmallTestRecords);
     }
 
     @Test
     public void testMultiValuesJDBCStageDAO() throws ParseException {
-        testScaffolding(multiValuesInsertJDBCStageDAO, reallySmallSize,
-                anotherReallySmallSize);
+        testScaffolding(multiValuesInsertJDBCStageDAO, reallySmallTestRecords,
+                anotherReallySmallTestRecords);
     }
 
     @Test
     public void testBatchIbatisStageDAO() throws ParseException {
-        testScaffolding(batchInsertIbatisStageDAO, smallSize, largeSize);
+        testScaffolding(batchInsertIbatisStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testBatchSJDBCStageDAO() throws ParseException {
-        testScaffolding(batchInsertSJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(batchInsertSJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testBatchJDBCStageDAO() throws ParseException {
-        testScaffolding(batchInsertJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(batchInsertJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testBcpIbatisStageDAO() throws ParseException {
-        testScaffolding(bcpIbatisStageDAO, smallSize, largeSize);
+        testScaffolding(bcpIbatisStageDAO, smallTestRecords, largeTestRecords);
     }
 
     @Test
     public void testBulkIbatisStageDAO() throws ParseException {
-        testScaffolding(bulkInsertIbatisStageDAO, smallSize, largeSize);
+        testScaffolding(bulkInsertIbatisStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testBulkSJDBCStageDAO() throws ParseException {
-        testScaffolding(bulkInsertSJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(bulkInsertSJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testBulkJDBCStageDAO() throws ParseException {
-        testScaffolding(bulkInsertJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(bulkInsertJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testOpenrowsetIbatisStageDAO() throws ParseException {
-        testScaffolding(openrowsetInsertIbatisStageDAO, smallSize, largeSize);
+        testScaffolding(openrowsetInsertIbatisStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testOpenrowsetSJDBCStageDAO() throws ParseException {
-        testScaffolding(openrowsetInsertSJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(openrowsetInsertSJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testOpenrowsetJDBCStageDAO() throws ParseException {
-        testScaffolding(openrowsetInsertJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(openrowsetInsertJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testXMLShredderIbatisStageDAO() throws ParseException {
-        testScaffolding(xmlShredderInsertIbatisStageDAO, smallSize, largeSize);
+        testScaffolding(xmlShredderInsertIbatisStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testXMLShredderSJDBCStageDAO() throws ParseException {
-        testScaffolding(xmlShredderInsertSJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(xmlShredderInsertSJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
     public void testXMLShredderJDBCStageDAO() throws ParseException {
-        testScaffolding(xmlShredderInsertJDBCStageDAO, smallSize, largeSize);
+        testScaffolding(xmlShredderInsertJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
-    private void testScaffolding(StageDAO stageDAO, int smallSize, int largeSize)
+    private void testScaffolding(StageDAO stageDAO,
+            List<MotleyObject> smallRecords, List<MotleyObject> largeRecords)
             throws ParseException {
-        sw.start(CREATING_TEST_RECORDS);
-        List<MotleyObject> testRecords = getTestRecords(smallSize);
-        sw.stop();
 
         sw.start(STAGING_TEST_RECORDS_IN
                 + stageDAO.getClass().getCanonicalName());
-        StageResult stageResult = stageDAO.stage(testRecords, templateDB,
+        StageResult stageResult = stageDAO.stage(smallRecords, templateDB,
                 templateTable);
         sw.stop();
         LOG.info("Staged table is {}", stageResult.getTableName());
@@ -202,13 +210,9 @@ public class StageDAOTest extends BaseStageDAOTest {
         stageDAO.dropStageTable(stageResult);
         sw.stop();
 
-        sw.start(CREATING_TEST_RECORDS);
-        testRecords = getTestRecords(largeSize);
-        sw.stop();
-
         sw.start(STAGING_TEST_RECORDS_IN
                 + stageDAO.getClass().getCanonicalName());
-        stageResult = stageDAO.stage(testRecords, templateDB, templateTable);
+        stageResult = stageDAO.stage(largeRecords, templateDB, templateTable);
         sw.stop();
         LOG.info("Staged table is {}", stageResult.getTableName());
 

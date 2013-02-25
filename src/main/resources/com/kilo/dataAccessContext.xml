@@ -6,7 +6,7 @@
 
     <bean id="testerDataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="testOnBorrow" value="true" />
-        <property name="maxActive" value="10" />
+        <property name="maxActive" value="100" />
         <property name="validationQuery">
             <value>SELECT 1</value>
         </property>
