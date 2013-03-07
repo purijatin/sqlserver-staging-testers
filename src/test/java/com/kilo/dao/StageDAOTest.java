@@ -89,13 +89,13 @@ public class StageDAOTest extends BaseStageDAOTest {
     }
 
     @Test
-    public void testMultiSJDBCStageDAO() throws ParseException {
+    public void testMultiInsertSJDBCStageDAO() throws ParseException {
         testScaffolding(multiInsertSJDBCStageDAO, smallTestRecords,
                 largeTestRecords);
     }
 
     @Test
-    public void testMultiJDBCStageDAO() throws ParseException {
+    public void testMultiInsertJDBCStageDAO() throws ParseException {
         testScaffolding(multiInsertJDBCStageDAO, smallTestRecords,
                 largeTestRecords);
     }
@@ -199,7 +199,7 @@ public class StageDAOTest extends BaseStageDAOTest {
             List<MotleyObject> smallRecords, List<MotleyObject> largeRecords)
             throws ParseException {
 
-        sw.start(STAGING_TEST_RECORDS_IN
+        sw.start(smallRecords.size()  + STAGING_TEST_RECORDS_IN
                 + stageDAO.getClass().getCanonicalName());
         StageResult stageResult = stageDAO.stage(smallRecords, templateDB,
                 templateTable);
@@ -210,7 +210,7 @@ public class StageDAOTest extends BaseStageDAOTest {
         stageDAO.dropStageTable(stageResult);
         sw.stop();
 
-        sw.start(STAGING_TEST_RECORDS_IN
+        sw.start(largeRecords.size()  + STAGING_TEST_RECORDS_IN
                 + stageDAO.getClass().getCanonicalName());
         stageResult = stageDAO.stage(largeRecords, templateDB, templateTable);
         sw.stop();

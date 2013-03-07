@@ -13,7 +13,7 @@ import com.kilo.domain.MotleyObject;
 
 public abstract class BaseStageDAOTest extends BaseDAOTest {
 
-    protected static final String STAGING_TEST_RECORDS_IN = "Staging test records in ";
+    protected static final String STAGING_TEST_RECORDS_IN = " Staging test records in ";
 
     protected static final String CREATING_TEST_RECORDS = "Creating test records";
 
