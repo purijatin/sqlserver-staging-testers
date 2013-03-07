@@ -27,8 +27,12 @@ public class BatchInsertStageDAO implements StageDAO {
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
         String stageTableName = StageUtils.getStageTableName(templateTable);
+        Connection connection = null;
+        boolean originalAutoCommitValue = false;
         try {
-            Connection connection = dataSource.getConnection();
+            connection = dataSource.getConnection();
+            originalAutoCommitValue = connection.getAutoCommit();
+            connection.setAutoCommit(false);
             Statement createStatement = connection.createStatement();
             String createTableDDL = "SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time INTO "
                     + stageTableName
@@ -66,6 +70,15 @@ public class BatchInsertStageDAO implements StageDAO {
         } catch (SQLException exception) {
             throw new IllegalArgumentException("Unable to stage records",
                     exception);
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.setAutoCommit(originalAutoCommitValue);
+                } catch (SQLException exception) {
+                    throw new IllegalArgumentException(
+                            "Unable to stage records", exception);
+                }
+            }
         }
 
         StageResult result = new StageResult();
