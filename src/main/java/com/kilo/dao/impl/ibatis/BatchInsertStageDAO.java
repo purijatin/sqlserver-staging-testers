@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.orm.ibatis.SqlMapClientCallback;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.ibatis.sqlmap.client.SqlMapExecutor;
@@ -20,6 +21,7 @@ public class BatchInsertStageDAO extends SqlMapClientDaoSupport implements
         StageDAO {
 
     @Override
+    @Transactional
     public StageResult stage(final List<MotleyObject> records,
             String templateDB, String templateTable) {
 

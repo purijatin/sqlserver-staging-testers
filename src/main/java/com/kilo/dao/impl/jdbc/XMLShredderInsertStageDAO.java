@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
@@ -19,6 +21,7 @@ public class XMLShredderInsertStageDAO implements StageDAO {
     private DataSource dataSource;
 
     @Override
+    @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
         String stageTableName = StageUtils.getStageTableName(templateTable);

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
@@ -23,6 +24,7 @@ public class OpenrowsetInsertStageDAO extends JdbcDaoSupport implements
     private String formatFilePath;
 
     @Override
+    @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
         String stageTableName = StageUtils.getStageTableName(templateTable);

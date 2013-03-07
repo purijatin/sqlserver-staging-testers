@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
@@ -16,6 +17,7 @@ public class MultiValuesInsertStageDAO extends SqlMapClientDaoSupport implements
         StageDAO {
 
     @Override
+    @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
 

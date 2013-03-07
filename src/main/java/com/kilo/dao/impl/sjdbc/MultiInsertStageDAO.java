@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
@@ -14,6 +15,7 @@ import com.kilo.domain.StageResult;
 public class MultiInsertStageDAO extends JdbcDaoSupport implements StageDAO {
 
     @Override
+    @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
         String stageTableName = StageUtils.getStageTableName(templateTable);

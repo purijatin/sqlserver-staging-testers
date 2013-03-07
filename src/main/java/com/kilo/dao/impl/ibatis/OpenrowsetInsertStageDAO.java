@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
@@ -25,6 +26,7 @@ public class OpenrowsetInsertStageDAO extends SqlMapClientDaoSupport implements
     private String formatFilePath;
 
     @Override
+    @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
         // Create the table from the template
