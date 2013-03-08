@@ -10,8 +10,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
@@ -22,12 +20,16 @@ public class MultiInsertStageDAO implements StageDAO {
     private DataSource dataSource;
 
     @Override
-    @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
             String templateTable) {
         String stageTableName = StageUtils.getStageTableName(templateTable);
+        Connection connection = null;
+        boolean originalAutoCommitValue = false;
+        PreparedStatement ps = null;
         try {
-            Connection connection = dataSource.getConnection();
+            connection = dataSource.getConnection();
+            originalAutoCommitValue = connection.getAutoCommit();
+            connection.setAutoCommit(false);
             Statement createStatement = connection.createStatement();
             String createTableDDL = "SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time INTO "
                     + stageTableName
@@ -42,7 +44,7 @@ public class MultiInsertStageDAO implements StageDAO {
                     + stageTableName
                     + "(date, name, id, price, amount, fx_rate, is_valid, knowledge_time) "
                     + " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = connection.prepareStatement(insertDML);
+            ps = connection.prepareStatement(insertDML);
             for (MotleyObject rec : records) {
                 ps.setDate(1, new Date(rec.getDate().getTime()));
                 ps.setString(2, rec.getName());
@@ -54,11 +56,31 @@ public class MultiInsertStageDAO implements StageDAO {
                 ps.setDate(8, new Date(rec.getKnowledgeTime().getTime()));
                 ps.execute();
             }
-            ps.close();
+            connection.commit();
 
         } catch (SQLException exception) {
+            try {
+                if (connection != null) {
+                    connection.rollback();
+                }
+            } catch (SQLException exception1) {
+                throw new IllegalArgumentException(
+                        "Unable to rollback connection", exception);
+            }
             throw new IllegalArgumentException("Unable to stage records",
                     exception);
+        } finally {
+            try {
+                if (ps != null) {
+                    ps.close();
+                }
+                if (connection != null) {
+                    connection.setAutoCommit(originalAutoCommitValue);
+                }
+            } catch (SQLException exception) {
+                throw new IllegalArgumentException(
+                        "Unable to reset autocommit value", exception);
+            }
         }
 
         StageResult result = new StageResult();
