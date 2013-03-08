@@ -2,14 +2,13 @@
 package com.kilo.dao.impl.jdbc;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
-
-import org.apache.commons.lang.time.DateFormatUtils;
 
 import com.google.common.collect.Lists;
 import com.kilo.dao.StageDAO;
@@ -52,16 +51,14 @@ public class BatchInsertStageDAO implements StageDAO {
             ps = connection.prepareStatement(insertDML);
             for (final List<MotleyObject> partition : partitions) {
                 for (MotleyObject rec : partition) {
-                    ps.setString(1, DateFormatUtils.formatUTC(rec.getDate(),
-                            "yyyyMMdd hh:mm:ss.SSS"));
+                    ps.setDate(1, new Date(rec.getDate().getTime()));
                     ps.setString(2, rec.getName());
-                    ps.setString(3, rec.getId().toString());
-                    ps.setString(4, rec.getPrice().toPlainString());
-                    ps.setString(5, rec.getAmount().toPlainString());
-                    ps.setString(6, rec.getFxRate().toPlainString());
-                    ps.setString(7, rec.getIsValid() ? "1" : "0");
-                    ps.setString(8, DateFormatUtils.formatUTC(
-                            rec.getKnowledgeTime(), "yyyyMMdd hh:mm:ss.SSS"));
+                    ps.setInt(3, rec.getId());
+                    ps.setBigDecimal(4, rec.getPrice());
+                    ps.setBigDecimal(5, rec.getAmount());
+                    ps.setBigDecimal(6, rec.getFxRate());
+                    ps.setBoolean(7, rec.getIsValid());
+                    ps.setDate(8, new Date(rec.getKnowledgeTime().getTime()));
                     ps.addBatch();
                 }
                 ps.executeBatch();
