@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kilo.dao.mybatis.mapper.Motley">
+
+    <insert id="createStageTable" parameterType="java.util.Map">
+        SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
+          INTO ${stageTableName}
+          FROM ${templateDB}..${templateTable}
+    </insert>
+    
+    <insert id="insertStage" parameterType="java.util.Map">
+        INSERT INTO ${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
+        VALUES (#{rec.date}, #{rec.name}, #{rec.id}, #{rec.price}, #{rec.amount}, 
+                #{rec.fxRate}, #{rec.isValid}, #{rec.knowledgeTime})
+    </insert>
+
+    <insert id="multiValuesInsertStage" parameterType="java.util.Map">
+        INSERT INTO ${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
+        VALUES <foreach collection="records" item="item" separator=",">
+        (#{item.date}, #{item.name}, #{item.id}, #{item.price}, #{item.amount},#{item.fxRate}, #{item.isValid}, #{item.knowledgeTime})
+        </foreach>
+    </insert>
+
+    <delete id="insertStageDrop" parameterType="java.util.Map">
+        DROP TABLE ${stageDBName}..${stageTableName}
+    </delete>
+
+    <insert id="bulkInsertStage" parameterType="java.util.Map">
+        BULK INSERT ${stageTableName}
+               FROM '${fileUNCPath}'
+    </insert>
+
+    <insert id="openrowsetInsertStage" parameterType="java.util.Map">
+        INSERT INTO ${stageTableName}
+        SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
+          FROM OPENROWSET
+               ( BULK '${fileUNCPath}', FORMATFILE='${formatFileUNCPath}') AS a
+    </insert>
+
+    <insert id="xmlInsertStage" parameterType="java.util.Map">
+        DECLARE @xml XML
+        SET @xml = #{xml}
+        
+        INSERT INTO ${stageTableName}
+        SELECT row.col.value('(d/text())[1]', 'datetime') AS date, 
+               row.col.value('(n/text())[1]', 'varchar') AS name, 
+               row.col.value('(i/text())[1]', 'integer') AS id, 
+               row.col.value('(p/text())[1]', 'numeric(18,4)') AS price, 
+               row.col.value('(a/text())[1]', 'numeric(18,4)') AS amount, 
+               row.col.value('(f/text())[1]', 'numeric(18,7)') AS fx_rate, 
+               row.col.value('(v/text())[1]', 'tinyint') AS is_valid, 
+               row.col.value('(k/text())[1]', 'datetime') AS knowledge_time
+          FROM @xml.nodes('//r') row(col) 
+    </insert>
+
+</mapper>

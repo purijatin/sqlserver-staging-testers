@@ -11,11 +11,9 @@
     <bean id="testerDataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="testOnBorrow" value="true" />
         <property name="maxActive" value="100" />
-        <!-- 
         <property name="validationQuery">
             <value>SELECT 1</value>
         </property>
-         -->
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
         <property name="url"
             value="jdbc:jtds:sqlserver://${com.kilo.dataserver}:1433/sandbox;appName=${com.kilo.application.name}" />
@@ -38,4 +36,10 @@
         <property name="dataSource" ref="testerDataSource" />
     </bean>
 
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="testerDataSource" />
+        <property name="configLocation" value="classpath:com/kilo/mybatis/tester-sqlmap-config.xml" />
+        <property name="mapperLocations" value="classpath:com/kilo/mybatis/mapper/*.xml" />
+    </bean>
+    
 </beans>

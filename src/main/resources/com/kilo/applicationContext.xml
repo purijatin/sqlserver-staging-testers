@@ -6,6 +6,10 @@
 
     <import resource="dataAccessContext.xml" />
 
+    <bean id="multiInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.MultiInsertStageDAO">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
     <bean id="multiInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.MultiInsertStageDAO">
         <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
     </bean>
