@@ -22,6 +22,10 @@
         <property name="dataSource" ref="testerDataSource" />
     </bean>
 
+    <bean id="multiValuesInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.MultiValuesInsertStageDAO">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
     <bean id="multiValuesInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.MultiValuesInsertStageDAO">
         <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
     </bean>
@@ -32,6 +36,10 @@
 
     <bean id="multiValuesInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.MultiValuesInsertStageDAO">
         <property name="dataSource" ref="testerDataSource" />
+    </bean>
+
+    <bean id="batchInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.BatchInsertStageDAO">
+        <property name="sqlSessionTemplate" ref="batchSqlSessionTemplate" />
     </bean>
 
     <bean id="batchInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.BatchInsertStageDAO">
@@ -53,6 +61,12 @@
         <property name="server" value="${com.kilo.dataserver}" />
     </bean>
 
+    <bean id="bulkInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.BulkInsertStageDAO">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+    </bean>
+
     <bean id="bulkInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.BulkInsertStageDAO">
         <property name="sqlMapClientTemplate" ref="testerSqlMapClientTemplate" />
         <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
@@ -69,6 +83,13 @@
         <property name="dataSource" ref="testerDataSource" />
         <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
         <property name="dirPath" value="${com.kilo.dir.path}" />
+    </bean>
+
+    <bean id="openrowsetInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.OpenrowsetInsertStageDAO">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
+        <property name="dirPath" value="${com.kilo.dir.path}" />
+        <property name="formatFilePath" value="${com.kilo.fmt.file.location}" />
     </bean>
 
     <bean id="openrowsetInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.OpenrowsetInsertStageDAO">
@@ -90,6 +111,10 @@
         <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
         <property name="dirPath" value="${com.kilo.dir.path}" />
         <property name="formatFilePath" value="${com.kilo.fmt.file.location}" />
+    </bean>
+
+    <bean id="xmlShredderInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.XMLShredderInsertStageDAO">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
     <bean id="xmlShredderInsertIbatisStageDAO" class="com.kilo.dao.impl.ibatis.XMLShredderInsertStageDAO">

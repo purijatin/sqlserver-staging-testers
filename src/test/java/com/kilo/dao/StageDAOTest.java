@@ -37,6 +37,9 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Resource(name = "multiInsertJDBCStageDAO")
     private StageDAO multiInsertJDBCStageDAO;
 
+    @Resource(name = "multiValuesInsertMybatisStageDAO")
+    private StageDAO multiValuesInsertMybatisStageDAO;
+
     @Resource(name = "multiValuesInsertIbatisStageDAO")
     private StageDAO multiValuesInsertIbatisStageDAO;
 
@@ -45,6 +48,9 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Resource(name = "multiValuesInsertJDBCStageDAO")
     private StageDAO multiValuesInsertJDBCStageDAO;
+
+    @Resource(name = "batchInsertMybatisStageDAO")
+    private StageDAO batchInsertMybatisStageDAO;
 
     @Resource(name = "batchInsertIbatisStageDAO")
     private StageDAO batchInsertIbatisStageDAO;
@@ -58,6 +64,9 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Resource(name = "bcpIbatisStageDAO")
     private StageDAO bcpIbatisStageDAO;
 
+    @Resource(name = "bulkInsertMybatisStageDAO")
+    private StageDAO bulkInsertMybatisStageDAO;
+
     @Resource(name = "bulkInsertIbatisStageDAO")
     private StageDAO bulkInsertIbatisStageDAO;
 
@@ -67,6 +76,9 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Resource(name = "bulkInsertJDBCStageDAO")
     private StageDAO bulkInsertJDBCStageDAO;
 
+    @Resource(name = "openrowsetInsertMybatisStageDAO")
+    private StageDAO openrowsetInsertMybatisStageDAO;
+
     @Resource(name = "openrowsetInsertIbatisStageDAO")
     private StageDAO openrowsetInsertIbatisStageDAO;
 
@@ -75,6 +87,9 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Resource(name = "openrowsetInsertJDBCStageDAO")
     private StageDAO openrowsetInsertJDBCStageDAO;
+
+    @Resource(name = "xmlShredderInsertMybatisStageDAO")
+    private StageDAO xmlShredderInsertMybatisStageDAO;
 
     @Resource(name = "xmlShredderInsertIbatisStageDAO")
     private StageDAO xmlShredderInsertIbatisStageDAO;
@@ -110,6 +125,12 @@ public class StageDAOTest extends BaseStageDAOTest {
     }
 
     @Test
+    public void testMultiValuesMybatisStageDAO() throws ParseException {
+        testScaffolding(multiValuesInsertMybatisStageDAO,
+                reallySmallTestRecords, anotherReallySmallTestRecords);
+    }
+
+    @Test
     public void testMultiValuesIbatisStageDAO() throws ParseException {
         testScaffolding(multiValuesInsertIbatisStageDAO,
                 reallySmallTestRecords, anotherReallySmallTestRecords);
@@ -125,6 +146,12 @@ public class StageDAOTest extends BaseStageDAOTest {
     public void testMultiValuesJDBCStageDAO() throws ParseException {
         testScaffolding(multiValuesInsertJDBCStageDAO, reallySmallTestRecords,
                 anotherReallySmallTestRecords);
+    }
+
+    @Test
+    public void testBatchMybatisStageDAO() throws ParseException {
+        testScaffolding(batchInsertMybatisStageDAO, smallTestRecords,
+                largeTestRecords);
     }
 
     @Test
@@ -151,6 +178,12 @@ public class StageDAOTest extends BaseStageDAOTest {
     }
 
     @Test
+    public void testBulkMybatisStageDAO() throws ParseException {
+        testScaffolding(bulkInsertMybatisStageDAO, smallTestRecords,
+                largeTestRecords);
+    }
+
+    @Test
     public void testBulkIbatisStageDAO() throws ParseException {
         testScaffolding(bulkInsertIbatisStageDAO, smallTestRecords,
                 largeTestRecords);
@@ -169,6 +202,12 @@ public class StageDAOTest extends BaseStageDAOTest {
     }
 
     @Test
+    public void testOpenrowsetMybatisStageDAO() throws ParseException {
+        testScaffolding(openrowsetInsertMybatisStageDAO, smallTestRecords,
+                largeTestRecords);
+    }
+
+    @Test
     public void testOpenrowsetIbatisStageDAO() throws ParseException {
         testScaffolding(openrowsetInsertIbatisStageDAO, smallTestRecords,
                 largeTestRecords);
@@ -183,6 +222,12 @@ public class StageDAOTest extends BaseStageDAOTest {
     @Test
     public void testOpenrowsetJDBCStageDAO() throws ParseException {
         testScaffolding(openrowsetInsertJDBCStageDAO, smallTestRecords,
+                largeTestRecords);
+    }
+
+    @Test
+    public void testXMLShredderMybatisStageDAO() throws ParseException {
+        testScaffolding(xmlShredderInsertMybatisStageDAO, smallTestRecords,
                 largeTestRecords);
     }
 

@@ -47,7 +47,7 @@ public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
                         "com.kilo.dao.mybatis.mapper.Motley.insertStage",
                         stageParamMap);
             }
-            getSqlSession().commit();
+            getSqlSession().flushStatements();
         }
 
         StageResult result = new StageResult();

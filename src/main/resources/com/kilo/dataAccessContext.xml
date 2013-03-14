@@ -42,4 +42,9 @@
         <property name="mapperLocations" value="classpath:com/kilo/mybatis/mapper/*.xml" />
     </bean>
     
+    <bean id="batchSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+        <constructor-arg index="1" value="BATCH" />
+    </bean>
+    
 </beans>
