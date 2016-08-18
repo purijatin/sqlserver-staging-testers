@@ -126,6 +126,19 @@ public class MotleyObject {
         return bulkInsertString.toString();
     }
 
+    public String toValueString(){
+        StringBuilder ans = new StringBuilder();
+        ans.append("'").append(DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS")).append("'").append(",")
+                .append("'").append(name).append("'").append(",")
+                .append(id).append(",")
+                .append(price.toPlainString()).append(",")
+                .append(amount.toPlainString()).append(",")
+                .append(fxRate.toPlainString()).append(",")
+                .append((isValid != null) ? (isValid ? "1" : "0") : "").append(",")
+                .append("'").append(DateFormatUtils.formatUTC(knowledgeTime, "yyyyMMdd hh:mm:ss.SSS")).append("'");
+        return ans.toString();
+    }
+
     public String toXMLInsertString() {
         StringBuilder xmlInsertString = new StringBuilder();
         xmlInsertString.append("<r>");

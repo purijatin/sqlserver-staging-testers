@@ -6,13 +6,12 @@
     <insert id="createStageTable" parameterType="java.util.Map">
         SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
           INTO ${stageTableName}
-          FROM ${templateDB}..${templateTable}
+          FROM ${templateDB}.guest.${templateTable}
     </insert>
     
     <insert id="insertStage" parameterType="java.util.Map">
-        INSERT INTO ${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
-        VALUES (#{rec.date}, #{rec.name}, #{rec.id}, #{rec.price}, #{rec.amount}, 
-                #{rec.fxRate}, #{rec.isValid}, #{rec.knowledgeTime})
+        INSERT INTO ${stageTableName}( id)
+        VALUES ( #{rec.id})
     </insert>
 
     <insert id="multiValuesInsertStage" parameterType="java.util.Map">

@@ -5,7 +5,7 @@
     <insert id="createStageTable" parameterClass="java.util.Map">
         SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
           INTO $stageTableName$
-          FROM $templateDB$..$templateTable$
+          FROM $templateDB$.guest.$templateTable$
     </insert>
     
     <insert id="insertStage" parameterClass="java.util.Map">

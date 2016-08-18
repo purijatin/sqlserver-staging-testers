@@ -25,9 +25,9 @@ public abstract class BaseStageDAOTest extends BaseDAOTest {
 
     private static String[] formatTypes = new String[] { "yyyymmdd" };
 
-    protected static List<MotleyObject> smallTestRecords;
+    private static List<MotleyObject> smallTestRecords;
 
-    protected static List<MotleyObject> largeTestRecords;
+    private static List<MotleyObject> largeTestRecords;
 
     protected static List<MotleyObject> reallySmallTestRecords;
 
@@ -35,11 +35,19 @@ public abstract class BaseStageDAOTest extends BaseDAOTest {
 
     private final static int smallSize = 1000;
 
-    private final static int largeSize = 100_000;
+    private final static int largeSize = 50_000;
 
     private static final int anotherReallySmallSize = 120;
 
     private static final int reallySmallSize = 100;
+
+    public List<MotleyObject> getTestObjects(int size)  {
+        try {
+            return getTestRecords(size);
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
 
     protected BaseStageDAOTest() {
         try {

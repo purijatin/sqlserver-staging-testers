@@ -8,18 +8,33 @@
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
     <tx:annotation-driven proxy-target-class="true" transaction-manager="testerTransactionManager"/>
-    <bean id="testerDataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="testOnBorrow" value="true" />
-        <property name="maxActive" value="100" />
-        <property name="validationQuery">
-            <value>SELECT 1</value>
-        </property>
+    <!--<bean id="testerDataSource" class="org.apache.commons.dbcp.BasicDataSource">-->
+        <!--<property name="testOnBorrow" value="true" />-->
+        <!--<property name="maxActive" value="100" />-->
+        <!--<property name="validationQuery">-->
+            <!--<value>SELECT 1</value>-->
+        <!--</property>-->
+        <!--<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />-->
+        <!--<property name="url"-->
+            <!--value="jdbc:jtds:sqlserver://${com.kilo.dataserver}:1433/sandbox;appName=${com.kilo.application.name}" />-->
+        <!--<property name="username" value="${com.kilo.username}" />-->
+        <!--<property name="password" value="${com.kilo.password}" />-->
+    <!--</bean>-->
+
+    <bean id="testerDataSource" class="deshaw.moss.service.dao.infra.MossDataSource">
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
-        <property name="url"
-            value="jdbc:jtds:sqlserver://${com.kilo.dataserver}:1433/sandbox;appName=${com.kilo.application.name}" />
+        <property name="url" value="jdbc:jtds:sqlserver://DBCORE1.balysandbox.c.ia55.net:1433/sandbox;useKerberos=true" />
+        <!--<property name="url" value="jdbc:jtds:sqlserver://dbrecondevnyc:1433/sandbox;useKerberos=true" />-->
+        <property name="maxActive" value="100" />
+        <property name="validationQuery" value="select 1" />
+        <property name="testOnBorrow" value="true" />
+        <property name="removeAbandoned" value="true" />
+        <property name="testWhileIdle" value="true" />
+        <property name="applicationName" value="Stage prac" />
         <property name="username" value="${com.kilo.username}" />
         <property name="password" value="${com.kilo.password}" />
     </bean>
+
     
     <bean id="testerSqlMapClient"
         class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
