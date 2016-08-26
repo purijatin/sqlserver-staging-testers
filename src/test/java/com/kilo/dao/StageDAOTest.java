@@ -72,8 +72,8 @@ public class StageDAOTest extends BaseStageDAOTest {
 //    @Resource(name = "bcpIbatisStageDAO")
 //    private StageDAO bcpIbatisStageDAO;
 //
-//    @Resource(name = "bulkInsertMybatisStageDAO")
-//    private StageDAO bulkInsertMybatisStageDAO;
+    @Resource(name = "bulkInsertMybatisStageDAO")
+    private StageDAO bulkInsertMybatisStageDAO;
 //
 //    @Resource(name = "bulkInsertIbatisStageDAO")
 //    private StageDAO bulkInsertIbatisStageDAO;
@@ -156,20 +156,20 @@ public class StageDAOTest extends BaseStageDAOTest {
 //                anotherReallySmallTestRecords);
 //    }
 
-    static final int large = 100_000;
-    static final int avgruns = 5;
+    static final int large = 60_000;
+    static final int avgruns = 1;
     static final int threads = 100;
 
     @Test
     public void testStaticMVStageDAO() throws ParseException {
         LOG.info("Time taken " + getMethodName() + ": " +
-                average(avgruns, () -> testScaffolding(mvStaticStageDAO, getTestObjects(1000), getTestObjects(large))));
+                average(avgruns, () -> testScaffolding(mvStaticStageDAO, getTestObjects(large), getTestObjects(large))));
     }
 
     @Test
     public void testParallelStaticMVStage() throws Exception {
         LOG.info("Time taken " + getMethodName() + ": " +
-                runParallel(threads, () -> testScaffolding(mvStaticStageDAO, getTestObjects(1000), getTestObjects(large))));
+                runParallel(threads, () -> testScaffolding(mvStaticStageDAO, getTestObjects(large), getTestObjects(large))));
     }
 
     //
@@ -220,11 +220,11 @@ public class StageDAOTest extends BaseStageDAOTest {
 //        testScaffolding(bcpIbatisStageDAO, smallTestRecords, largeTestRecords);
 //    }
 //
-//    @Test
-//    public void testBulkMybatisStageDAO() throws ParseException {
-//        testScaffolding(bulkInsertMybatisStageDAO, smallTestRecords,
-//                largeTestRecords);
-//    }
+    @Test
+    public void testBulkMybatisStageDAO() throws ParseException {
+        testScaffolding(bulkInsertMybatisStageDAO, getTestObjects(500),
+                getTestObjects(500));
+    }
 //
 //    @Test
 //    public void testBulkIbatisStageDAO() throws ParseException {
@@ -310,18 +310,18 @@ public class StageDAOTest extends BaseStageDAOTest {
 
         //verylarge
         //large
-        sw.start(largeRecords.size() + STAGING_TEST_RECORDS_IN + stageDAO.getClass().getCanonicalName());
-        long st = System.currentTimeMillis();
-        stageResult = stageDAO.stage(largeRecords, templateDB, templateTable);
-        sw.stop();
-        long ans = System.currentTimeMillis() - st;
-//        LOG.info("Staged table is {}", stageResult.getTableName());
-
-        sw.start(DROPPING_STAGE_TABLE);
-        stageDAO.dropStageTable(stageResult);
-        sw.stop();
+//        sw.start(largeRecords.size() + STAGING_TEST_RECORDS_IN + stageDAO.getClass().getCanonicalName());
+//        long st = System.currentTimeMillis();
+//        stageResult = stageDAO.stage(largeRecords, templateDB, templateTable);
+//        sw.stop();
+//        long ans = System.currentTimeMillis() - st;
+////        LOG.info("Staged table is {}", stageResult.getTableName());
+//
+//        sw.start(DROPPING_STAGE_TABLE);
+//        stageDAO.dropStageTable(stageResult);
+//        sw.stop();
         LOG.info(sw.prettyPrint());
-        return ans;
+        return 1;
 
     }
 

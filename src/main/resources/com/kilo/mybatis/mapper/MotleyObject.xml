@@ -4,9 +4,12 @@
 <mapper namespace="com.kilo.dao.mybatis.mapper.Motley">
 
     <insert id="createStageTable" parameterType="java.util.Map">
-        SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
-          INTO ${stageTableName}
-          FROM ${templateDB}.guest.${templateTable}
+--         SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time
+--           INTO ${stageTableName}
+--           FROM ${templateDB}.guest.${templateTable}
+--
+      create table #${stageTableName}
+      (date DATETIME, name VARCHAR(100), id INT, price INT, amount INT, fx_rate INT, is_valid BIT, knowledge_time DATETIME)
     </insert>
     
     <insert id="insertStage" parameterType="java.util.Map">
@@ -22,7 +25,7 @@
     </insert>
 
     <delete id="insertStageDrop" parameterType="java.util.Map">
-        DROP TABLE ${stageDBName}..${stageTableName}
+        DROP TABLE ${stageTableName}
     </delete>
 
     <insert id="bulkInsertStage" parameterType="java.util.Map">

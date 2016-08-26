@@ -35,6 +35,20 @@
         <property name="password" value="${com.kilo.password}" />
     </bean>
 
+    <!--<bean id="testerDataSource" class="deshaw.moss.service.dao.infra.MossDataSource">-->
+        <!--<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />-->
+        <!--<property name="url" value="jdbc:sqlserver://DBCORE1.balysandbox.c.ia55.net:1433;databaseName=sandbox;useKerberos=true" />-->
+        <!--&lt;!&ndash;<property name="url" value="jdbc:jtds:sqlserver://dbrecondevnyc:1433/sandbox;useKerberos=true" />&ndash;&gt;-->
+        <!--<property name="maxActive" value="200" />-->
+        <!--<property name="validationQuery" value="select 1" />-->
+        <!--<property name="testOnBorrow" value="true" />-->
+        <!--<property name="removeAbandoned" value="true" />-->
+        <!--<property name="testWhileIdle" value="true" />-->
+        <!--<property name="applicationName" value="Stage prac" />-->
+        <!--<property name="username" value="${com.kilo.username}" />-->
+        <!--<property name="password" value="${com.kilo.password}" />-->
+    <!--</bean>-->
+
     
     <bean id="testerSqlMapClient"
         class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">

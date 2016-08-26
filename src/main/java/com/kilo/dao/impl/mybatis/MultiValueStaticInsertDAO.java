@@ -3,6 +3,7 @@ package com.kilo.dao.impl.mybatis;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +35,10 @@ public class MultiValueStaticInsertDAO extends SqlSessionDaoSupport implements S
             String create = " SELECT date, name, id, price, amount, fx_rate, is_valid, knowledge_time\n" +
                     "          INTO "+stageTableName+
                     "          FROM "+templateDB+".guest."+templateTable+";";
-            statement.addBatch(create);
-//            jdbcTemplate.update(create);
+//            statement.addBatch(create);
+            jdbcTemplate.update(create);
             List<List<MotleyObject>> partitions = Lists.partition(records, 1000);
+            ArrayList<String> ls = new ArrayList<>();
 
             for (List<MotleyObject> partition : partitions) {
                 StringBuilder str = new StringBuilder(1024);
@@ -48,9 +50,14 @@ public class MultiValueStaticInsertDAO extends SqlSessionDaoSupport implements S
                         str.append(",");
                     }
                 }
+//                ls.add(str.toString());;
                 statement.addBatch(str.toString());
+//                jdbc
+//                temp.append(str.toString()).append(";");
 //                jdbcTemplate.update(str.toString());
             }
+//            statement.addBatch(temp.toString());
+//            jdbcTemplate.batchUpdate(ls.toArray(new String[0]));
             statement.executeBatch();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -68,7 +75,8 @@ public class MultiValueStaticInsertDAO extends SqlSessionDaoSupport implements S
         try {
 //            Statement statement = getSqlSession().getConnection().createStatement();
 //            statement.execute("drop table "+stageResult.getTableName());
-            jdbcTemplate.update("drop table "+stageResult.getTableName());
+//            jdbcTemplate.update("drop table "+stageResult.getTableName());
+            Thread.sleep(25);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
