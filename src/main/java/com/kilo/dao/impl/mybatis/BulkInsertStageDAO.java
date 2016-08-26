@@ -3,12 +3,15 @@ package com.kilo.dao.impl.mybatis;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
@@ -23,6 +26,10 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
 
     private String dirPath;
 
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @Override
     @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
@@ -34,23 +41,21 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlSession().insert(
-                "com.kilo.dao.mybatis.mapper.Motley.createStageTable",
-                stageTableCreationParamMap);
+        String create = "create table "+stageTableName+" (id int);";
+        jdbcTemplate.update(create);
 
         StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
-            content.append(rec.toBulkInsertString() + BULK_INSERT_ROW_SEPARATOR);
+            content.append(rec.getId()).append(BULK_INSERT_ROW_SEPARATOR);
         }
 
-        File file = null;
+        File file;
         try {
             File dir = new File(dirPath);
             file = File.createTempFile(templateDB, stageTableName, dir);
             FileUtils.write(file, content);
         } catch (IOException exception) {
-            throw new IllegalArgumentException("Unable to create bcp file",
-                    exception);
+            throw new IllegalArgumentException(exception);
         }
 
         // Use T-SQL to bulk insert
