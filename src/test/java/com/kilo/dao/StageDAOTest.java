@@ -1,16 +1,32 @@
 
 package com.kilo.dao;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +42,8 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Resource(name = "batchInsertMybatisStageDAO")
     private StageDAO batchInsertMybatisStageDAO;
+
+
 
 
     @Test
@@ -76,6 +94,70 @@ public class StageDAOTest extends BaseStageDAOTest {
                         .map(CompletableFuture::join)
                         .collect(Collectors.toList())
                 );
+    }
+
+
+    class A<T> implements TypeHandler<T>{
+
+        @Override
+        public void setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
+        }
+
+        @Override
+        public T getResult(ResultSet rs, String columnName) throws SQLException {
+            return null;
+        }
+
+        @Override
+        public T getResult(ResultSet rs, int columnIndex) throws SQLException {
+            return null;
+        }
+
+        @Override
+        public T getResult(CallableStatement cs, int columnIndex) throws SQLException {
+            return null;
+        }
+    }
+
+    class Ar extends A<ArrayList<String>>{}
+    class B extends A<List<String>>{}
+    class C extends A<Set<String>>{}
+    class D extends A<LinkedList<String>>{}
+    class E extends A<HashSet<String>>{}
+    class F extends A<TreeSet<String>>{}
+    class G extends A<java.lang.reflect.Array>{}
+    class H extends A<TimeUnit>{}
+
+
+
+    @Test
+    public void testGetGenericRecUnits() throws Exception {
+        TypeHandlerRegistry map = new TypeHandlerRegistry();
+        int runs = 217_800_135;
+
+        map.register(ArrayList.class, new Ar());
+        map.register(List.class, new B());
+        map.register(Set.class, new C());
+        map.register(LinkedList.class, new D());
+        map.register(HashSet.class, new E());
+        map.register(TreeSet.class, new F());
+        map.register(java.lang.reflect.Array.class, new G());
+        map.register(TimeUnit.class, new H());
+
+        Field field = TypeHandlerRegistry.class.getDeclaredField("TYPE_HANDLER_MAP");
+        field.setAccessible(true);
+
+        Map<Type, Map<JdbcType, TypeHandler<?>>> type = (Map<Type, Map<JdbcType, TypeHandler<?>>>) field.get(map);
+        Set<Type> types = type.keySet();
+        for (Type type1 : types) {
+            long st = System.currentTimeMillis();
+            boolean b = true;//so that jit doesnt do anything special
+            for (int i = 0; i < runs; i++) {
+                b &= map.hasTypeHandler((Class<?>) type1);
+            }
+            System.out.println(b);
+            System.out.println(type1 + " - Total: " + (System.currentTimeMillis() - st));
+        }
     }
 
 
