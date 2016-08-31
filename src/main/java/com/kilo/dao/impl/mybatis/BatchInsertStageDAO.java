@@ -29,9 +29,9 @@ public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlSession().insert(
-                "com.kilo.dao.mybatis.mapper.Motley.createStageTable",
-                stageTableCreationParamMap);
+//        getSqlSession().insert(
+//                "com.kilo.dao.mybatis.mapper.Motley.createStageTable",
+//                stageTableCreationParamMap);
 
         // Insert into the table
 
@@ -64,6 +64,16 @@ public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
         getSqlSession().delete(
                 "com.kilo.dao.mybatis.mapper.Motley.insertStageDrop",
                 stageParamMap);
+    }
+
+    public List<MotleyObject> getAll(){
+        Map<String, Object> stageParamMap = new HashMap<>();
+        return getSqlSession().selectList("com.kilo.dao.mybatis.mapper.Motley.getAllMotley",stageParamMap);
+    }
+
+    public List<MotleyObject> getAll2(){
+        Map<String, Object> stageParamMap = new HashMap<>();
+        return getSqlSession().selectList("com.kilo.dao.mybatis.mapper.Motley.getAllMotley2",stageParamMap);
     }
 
 }

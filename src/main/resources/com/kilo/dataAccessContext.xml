@@ -50,15 +50,15 @@
     <!--</bean>-->
 
     
-    <bean id="testerSqlMapClient"
-        class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
-        <property name="configLocation"
-            value="classpath:com/kilo/ibatis/tester-sqlmap-config.xml" />
-        <property name="dataSource" ref="testerDataSource" />
-    </bean>
-    <bean id="testerSqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">
-        <property name="sqlMapClient" ref="testerSqlMapClient" />
-    </bean>
+    <!--<bean id="testerSqlMapClient"-->
+        <!--class="org.mybatis.spring.support.SqlSessionDaoSupport">-->
+        <!--<property name="configLocation"-->
+            <!--value="classpath:com/kilo/ibatis/tester-sqlmap-config.xml" />-->
+        <!--<property name="dataSource" ref="testerDataSource" />-->
+    <!--</bean>-->
+    <!--<bean id="testerSqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate">-->
+        <!--<property name="sqlMapClient" ref="testerSqlMapClient" />-->
+    <!--</bean>-->
 
     <bean id="testerTransactionManager"
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

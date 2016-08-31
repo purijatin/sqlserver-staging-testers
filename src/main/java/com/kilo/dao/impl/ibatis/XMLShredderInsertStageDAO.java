@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+//import org.springframework.orm.ibatis.support.SqlSessionDaoSupport;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
@@ -13,7 +14,7 @@ import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
-public class XMLShredderInsertStageDAO extends SqlMapClientDaoSupport implements
+public class XMLShredderInsertStageDAO extends SqlSessionDaoSupport implements
         StageDAO {
 
     @Override
@@ -27,7 +28,7 @@ public class XMLShredderInsertStageDAO extends SqlMapClientDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlMapClientTemplate().insert("Motley.createStageTable",
+        getSqlSession().insert("Motley.createStageTable",
                 stageTableCreationParamMap);
 
         StringBuilder content = new StringBuilder();
@@ -39,7 +40,7 @@ public class XMLShredderInsertStageDAO extends SqlMapClientDaoSupport implements
         Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageTableName", stageTableName);
         stageParamMap.put("xml", content.toString());
-        getSqlMapClientTemplate()
+        getSqlSession()
                 .insert("Motley.xmlInsertStage", stageParamMap);
 
         StageResult result = new StageResult();
@@ -53,7 +54,7 @@ public class XMLShredderInsertStageDAO extends SqlMapClientDaoSupport implements
         Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageDBName", stageResult.getDbName());
         stageParamMap.put("stageTableName", stageResult.getTableName());
-        getSqlMapClientTemplate().delete("Motley.insertStageDrop",
+        getSqlSession().delete("Motley.insertStageDrop",
                 stageParamMap);
     }
 

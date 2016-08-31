@@ -11,10 +11,13 @@
       create table #${stageTableName}
       (date DATETIME, name VARCHAR(100), id INT, price INT, amount INT, fx_rate INT, is_valid BIT, knowledge_time DATETIME)
     </insert>
-    
+    <!--&#45;&#45;         INSERT INTO ${stageTableName}( id)-->
+    <!--&#45;&#45;         VALUES ( #{rec.id})    -->
     <insert id="insertStage" parameterType="java.util.Map">
-        INSERT INTO ${stageTableName}( id)
-        VALUES ( #{rec.id})
+
+      INSERT INTO sandbox.guest.motley_temp (date, name, id, price, amount, fx_rate, is_valid, knowledge_time, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, var13, var14, var15, var16, var17, var18, var19, var20, var21, var22, var23, var24, var25, var26, var27, var28, var29, var30, var31, var32, var33, var34, var35, var36, var37, var38, var39, var40, var41, var42, var43, var44, var45, var46, var47, var48, var49, var50, var51, var52, var53, var54, var55, var56, var57, var58, var59, var60, var61, var62, var63, var64, var65, var66, var67, var68, var69, var70, var71, var72, var73, var74, var75, var76, var77, var78, var79, var80, var81, var82, var83, var84, var85, var86, var87, var88, var89, var90, var91, var92, var93, var94, var95, var96, var97, var98, var99, var100)
+        VALUES (#{rec.date}, #{rec.name}, #{rec.id}, #{rec.price}, #{rec.amount},
+                #{rec.fxRate}, #{rec.isValid}, #{rec.knowledgeTime},#{rec.var1},#{rec.var2},#{rec.var3},#{rec.var4},#{rec.var5},#{rec.var6},#{rec.var7},#{rec.var8},#{rec.var9},#{rec.var10},#{rec.var11},#{rec.var12},#{rec.var13},#{rec.var14},#{rec.var15},#{rec.var16},#{rec.var17},#{rec.var18},#{rec.var19},#{rec.var20},#{rec.var21},#{rec.var22},#{rec.var23},#{rec.var24},#{rec.var25},#{rec.var26},#{rec.var27},#{rec.var28},#{rec.var29},#{rec.var30},#{rec.var31},#{rec.var32},#{rec.var33},#{rec.var34},#{rec.var35},#{rec.var36},#{rec.var37},#{rec.var38},#{rec.var39},#{rec.var40},#{rec.var41},#{rec.var42},#{rec.var43},#{rec.var44},#{rec.var45},#{rec.var46},#{rec.var47},#{rec.var48},#{rec.var49},#{rec.var50},#{rec.var51},#{rec.var52},#{rec.var53},#{rec.var54},#{rec.var55},#{rec.var56},#{rec.var57},#{rec.var58},#{rec.var59},#{rec.var60},#{rec.var61},#{rec.var62},#{rec.var63},#{rec.var64},#{rec.var65},#{rec.var66},#{rec.var67},#{rec.var68},#{rec.var69},#{rec.var70},#{rec.var71},#{rec.var72},#{rec.var73},#{rec.var74},#{rec.var75},#{rec.var76},#{rec.var77},#{rec.var78},#{rec.var79},#{rec.var80},#{rec.var81},#{rec.var82},#{rec.var83},#{rec.var84},#{rec.var85},#{rec.var86},#{rec.var87},#{rec.var88},#{rec.var89},#{rec.var90},#{rec.var91},#{rec.var92},#{rec.var93},#{rec.var94},#{rec.var95},#{rec.var96},#{rec.var97},#{rec.var98},#{rec.var99},#{rec.var100})
     </insert>
 
     <insert id="multiValuesInsertStage" parameterType="java.util.Map">
@@ -55,5 +58,130 @@
                row.col.value('(k/text())[1]', 'datetime') AS knowledge_time
           FROM @xml.nodes('//r') row(col) 
     </insert>
+
+    <resultMap type="com.kilo.domain.MotleyObject" id="motObject">
+        <id property="id" column="id" />
+        <result property="date" column="date" />
+        <result property="knowledgeTime" column="knowledge_time" />
+        <result property="name" column="name" />
+        <result property="price" column="price" />
+        <result property="amount" column="amount" />
+        <result property="fxRate" column="fx_rate" />
+        <result property="isValid" column="is_valid" />
+        <result property="var1" column="var1" />
+        <result property="var2" column="var2" />
+        <result property="var3" column="var3" />
+        <result property="var4" column="var4" />
+        <result property="var5" column="var5" />
+        <result property="var6" column="var6" />
+        <result property="var7" column="var7" />
+        <result property="var8" column="var8" />
+        <result property="var9" column="var9" />
+        <result property="var10" column="var10" />
+        <result property="var11" column="var11" />
+        <result property="var12" column="var12" />
+        <result property="var13" column="var13" />
+        <result property="var14" column="var14" />
+        <result property="var15" column="var15" />
+        <result property="var16" column="var16" />
+        <result property="var17" column="var17" />
+        <result property="var18" column="var18" />
+        <result property="var19" column="var19" />
+        <result property="var20" column="var20" />
+        <result property="var21" column="var21" />
+        <result property="var22" column="var22" />
+        <result property="var23" column="var23" />
+        <result property="var24" column="var24" />
+        <result property="var25" column="var25" />
+        <result property="var26" column="var26" />
+        <result property="var27" column="var27" />
+        <result property="var28" column="var28" />
+        <result property="var29" column="var29" />
+        <result property="var30" column="var30" />
+        <result property="var31" column="var31" />
+        <result property="var32" column="var32" />
+        <result property="var33" column="var33" />
+        <result property="var34" column="var34" />
+        <result property="var35" column="var35" />
+        <result property="var36" column="var36" />
+        <result property="var37" column="var37" />
+        <result property="var38" column="var38" />
+        <result property="var39" column="var39" />
+        <result property="var40" column="var40" />
+        <result property="var41" column="var41" />
+        <result property="var42" column="var42" />
+        <result property="var43" column="var43" />
+        <result property="var44" column="var44" />
+        <result property="var45" column="var45" />
+        <result property="var46" column="var46" />
+        <result property="var47" column="var47" />
+        <result property="var48" column="var48" />
+        <result property="var49" column="var49" />
+        <result property="var50" column="var50" />
+        <result property="var51" column="var51" />
+        <result property="var52" column="var52" />
+        <result property="var53" column="var53" />
+        <result property="var54" column="var54" />
+        <result property="var55" column="var55" />
+        <result property="var56" column="var56" />
+        <result property="var57" column="var57" />
+        <result property="var58" column="var58" />
+        <result property="var59" column="var59" />
+        <result property="var60" column="var60" />
+        <result property="var61" column="var61" />
+        <result property="var62" column="var62" />
+        <result property="var63" column="var63" />
+        <result property="var64" column="var64" />
+        <result property="var65" column="var65" />
+        <result property="var66" column="var66" />
+        <result property="var67" column="var67" />
+        <result property="var68" column="var68" />
+        <result property="var69" column="var69" />
+        <result property="var70" column="var70" />
+        <result property="var71" column="var71" />
+        <result property="var72" column="var72" />
+        <result property="var73" column="var73" />
+        <result property="var74" column="var74" />
+        <result property="var75" column="var75" />
+        <result property="var76" column="var76" />
+        <result property="var77" column="var77" />
+        <result property="var78" column="var78" />
+        <result property="var79" column="var79" />
+        <result property="var80" column="var80" />
+        <result property="var81" column="var81" />
+        <result property="var82" column="var82" />
+        <result property="var83" column="var83" />
+        <result property="var84" column="var84" />
+        <result property="var85" column="var85" />
+        <result property="var86" column="var86" />
+        <result property="var87" column="var87" />
+        <result property="var88" column="var88" />
+        <result property="var89" column="var89" />
+        <result property="var90" column="var90" />
+        <result property="var91" column="var91" />
+        <result property="var92" column="var92" />
+        <result property="var93" column="var93" />
+        <result property="var94" column="var94" />
+        <result property="var95" column="var95" />
+        <result property="var96" column="var96" />
+        <result property="var97" column="var97" />
+        <result property="var98" column="var98" />
+        <result property="var99" column="var99" />
+        <result property="var100" column="var100" />
+    </resultMap>
+
+    <resultMap type="com.kilo.domain.MotleyObject" id="motObject2">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getAllMotley" resultMap="motObject">
+        select date, name, id, price, amount, fx_rate, is_valid, knowledge_time, var1, var2, var3, var4, var5, var6, var7, var8, var9, var10, var11, var12, var13, var14, var15, var16, var17, var18, var19, var20, var21, var22, var23, var24, var25, var26, var27, var28, var29, var30, var31, var32, var33, var34, var35, var36, var37, var38, var39, var40, var41, var42, var43, var44, var45, var46, var47, var48, var49, var50, var51, var52, var53, var54, var55, var56, var57, var58, var59, var60, var61, var62, var63, var64, var65, var66, var67, var68, var69, var70, var71, var72, var73, var74, var75, var76, var77, var78, var79, var80, var81, var82, var83, var84, var85, var86, var87, var88, var89, var90, var91, var92, var93, var94, var95, var96, var97, var98, var99, var100
+        from sandbox.guest.motley_temp
+    </select>
+    <select id="getAllMotley2" resultMap="motObject2">
+        select id
+         from sandbox.guest.motley_temp
+    </select>
+
 
 </mapper>

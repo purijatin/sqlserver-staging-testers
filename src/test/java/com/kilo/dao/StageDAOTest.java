@@ -1,8 +1,15 @@
 
 package com.kilo.dao;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -16,11 +23,15 @@ import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
+import com.kilo.MonitorInterceptor;
+import com.kilo.dao.impl.mybatis.BatchInsertStageDAO;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
@@ -156,9 +167,67 @@ public class StageDAOTest extends BaseStageDAOTest {
 //                anotherReallySmallTestRecords);
 //    }
 
-    static final int large = 60_000;
+    static final int large = 10_000_000;
     static final int avgruns = 1;
     static final int threads = 100;
+
+    @Test
+    public void t1() throws NoSuchFieldException, IllegalAccessException {
+        TypeHandlerRegistry ls = new TypeHandlerRegistry();
+        Map<Type, JdbcType> map = new HashMap<Type, JdbcType>();
+        map.put(String.class, JdbcType.VARCHAR);
+        long diff = 0L;
+        for (int i = 0; i < 1000_000_000; i++) {
+            long st = System.currentTimeMillis();
+            map.get(Integer.class);
+            diff+= (System.currentTimeMillis() - st);
+        }
+        System.out.println("Total: "+(diff)+"  "+(diff/1_000_000));
+
+        List<? extends Class<? extends Serializable>> classes = Arrays.asList(Integer.class, Double.class, Boolean.class, BigDecimal.class);
+        Field f = TypeHandlerRegistry.class.getDeclaredField("TYPE_HANDLER_MAP");
+        f.setAccessible(true);
+        HashMap<Type, ?> typeHashMap = (HashMap<Type, ?>) f.get(ls);
+
+
+        List<Class> claz = typeHashMap.keySet().stream().filter(x -> x instanceof Class).map(x -> (Class) x).collect(Collectors.toList());
+        System.out.println(claz);
+        for (Class<?> aClass : claz) {
+            double va = average(large, () -> {
+                long st = System.currentTimeMillis();
+                ls.hasTypeHandler(aClass);
+                return System.currentTimeMillis() - st;
+            });
+            LOG.info(aClass+"-> "+va+" | "+(large*va));
+        }
+
+    }
+
+    @Test
+    public void testjdbctype(){
+
+        BatchInsertStageDAO batch = (BatchInsertStageDAO) this.batchInsertMybatisStageDAO;
+//        batch.stage(getTestObjects(200_000),null,null);
+//        batch.stage(getTestObjects(500_000), null, null);
+//        System.out.println(batch.getAll().size()+" "+ batch.getAll2().size());
+        LOG.info("X jdbcType" + getMethodName() + ": " +average(3,() -> {
+            long st = System.currentTimeMillis();
+            MonitorInterceptor.count=0;
+            batch.getAll();
+            long l = System.currentTimeMillis() - st;
+            System.out.println("X "+l+". Count: "+MonitorInterceptor.count);
+            return l;
+        }));
+
+        LOG.info("jdbcTypePresent " + getMethodName() + ": " +average(3,() -> {
+            long st = System.currentTimeMillis();
+            MonitorInterceptor.count=0;
+            batch.getAll2();
+            long l = System.currentTimeMillis() - st;
+            System.out.println("present "+l+". Count: "+MonitorInterceptor.count);
+            return l;
+        }));
+    }
 
     @Test
     public void testStaticMVStageDAO() throws ParseException {

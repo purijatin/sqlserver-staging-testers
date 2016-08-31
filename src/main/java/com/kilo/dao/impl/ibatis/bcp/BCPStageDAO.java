@@ -8,14 +8,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 
 import com.kilo.dao.StageDAO;
 import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
-public class BCPStageDAO extends SqlMapClientDaoSupport implements StageDAO {
+public class BCPStageDAO extends SqlSessionDaoSupport implements StageDAO {
 
     private static final String BCP_BINARY = "/usr/local/bin/freebcp";
 
@@ -35,7 +35,7 @@ public class BCPStageDAO extends SqlMapClientDaoSupport implements StageDAO {
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlMapClientTemplate().insert("Motley.createStageTable",
+        getSqlSession().insert("Motley.createStageTable",
                 stageTableCreationParamMap);
 
         StringBuffer content = new StringBuffer();
@@ -86,7 +86,7 @@ public class BCPStageDAO extends SqlMapClientDaoSupport implements StageDAO {
         Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageDBName", stageResult.getDbName());
         stageParamMap.put("stageTableName", stageResult.getTableName());
-        getSqlMapClientTemplate().delete("Motley.insertStageDrop",
+        getSqlSession().delete("Motley.insertStageDrop",
                 stageParamMap);
     }
 

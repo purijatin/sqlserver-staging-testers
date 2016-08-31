@@ -1,6 +1,8 @@
 
 package com.kilo.dao;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -78,6 +80,17 @@ public abstract class BaseStageDAOTest extends BaseDAOTest {
             MotleyObject mo = new MotleyObject(date, "name_" + i, i, price,
                     amount, fxRate, Boolean.valueOf(i % 2 == 0), knowledgeTime);
             results.add(mo);
+            for (Method result : MotleyObject.class.getMethods()) {
+                if(result.getName().startsWith("setVar")){
+                    try {
+                        result.invoke(mo, (int)(Math.random()*Integer.MAX_VALUE));
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         }
         return results;
     }

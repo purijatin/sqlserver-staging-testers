@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kilo.dao.StageDAO;
@@ -13,7 +14,7 @@ import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
-public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
+public class MultiInsertStageDAO extends SqlSessionDaoSupport implements
         StageDAO {
 
     @Override
@@ -28,7 +29,7 @@ public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlMapClientTemplate().insert("Motley.createStageTable",
+        getSqlSession().insert("Motley.createStageTable",
                 stageTableCreationParamMap);
 
         // Insert into the table
@@ -36,7 +37,7 @@ public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
         stageParamMap.put("stageTableName", stageTableName);
         for (MotleyObject rec : records) {
             stageParamMap.put("rec", rec);
-            getSqlMapClientTemplate().insert("Motley.insertStage",
+            getSqlSession().insert("Motley.insertStage",
                     stageParamMap);
         }
 
@@ -51,7 +52,7 @@ public class MultiInsertStageDAO extends SqlMapClientDaoSupport implements
         Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageDBName", stageResult.getDbName());
         stageParamMap.put("stageTableName", stageResult.getTableName());
-        getSqlMapClientTemplate().delete("Motley.insertStageDrop",
+        getSqlSession().delete("Motley.insertStageDrop",
                 stageParamMap);
     }
 

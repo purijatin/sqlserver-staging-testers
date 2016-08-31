@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.orm.ibatis.SqlMapClientCallback;
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
@@ -17,7 +16,7 @@ import com.kilo.dao.StageUtils;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
-public class BatchInsertStageDAO extends SqlMapClientDaoSupport implements
+public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
         StageDAO {
 
     @Override
@@ -32,7 +31,7 @@ public class BatchInsertStageDAO extends SqlMapClientDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        getSqlMapClientTemplate().insert("Motley.createStageTable",
+        getSqlSession().insert("Motley.createStageTable",
                 stageTableCreationParamMap);
 
         // Insert into the table
@@ -40,28 +39,28 @@ public class BatchInsertStageDAO extends SqlMapClientDaoSupport implements
         final Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageTableName", stageTableName);
 
-        SqlMapClientCallback<Object> action = new SqlMapClientCallback<Object>() {
-
-            @Override
-            public Object doInSqlMapClient(SqlMapExecutor executor)
-                    throws SQLException {
-
-                int updates = 0;
-                List<List<MotleyObject>> partitions = Lists.partition(records,
-                        batchSize);
-                for (List<MotleyObject> partition : partitions) {
-                    executor.startBatch();
-                    for (MotleyObject rec : partition) {
-                        stageParamMap.put("rec", rec);
-                        executor.insert("Motley.insertStage", stageParamMap);
-                    }
-                    int update = executor.executeBatch();
-                    updates = updates + update;
-                }
-                return Integer.valueOf(updates);
-            }
-        };
-        getSqlMapClientTemplate().execute(action);
+//        SqlMapClientCallback<Object> action = new SqlMapClientCallback<Object>() {
+//
+//            @Override
+//            public Object doInSqlMapClient(SqlMapExecutor executor)
+//                    throws SQLException {
+//
+//                int updates = 0;
+//                List<List<MotleyObject>> partitions = Lists.partition(records,
+//                        batchSize);
+//                for (List<MotleyObject> partition : partitions) {
+//                    executor.startBatch();
+//                    for (MotleyObject rec : partition) {
+//                        stageParamMap.put("rec", rec);
+//                        executor.insert("Motley.insertStage", stageParamMap);
+//                    }
+//                    int update = executor.executeBatch();
+//                    updates = updates + update;
+//                }
+//                return Integer.valueOf(updates);
+//            }
+//        };
+//        getSqlSession().execute(action);
 
         StageResult result = new StageResult();
         result.setDbName(templateDB);
@@ -74,7 +73,7 @@ public class BatchInsertStageDAO extends SqlMapClientDaoSupport implements
         Map<String, Object> stageParamMap = new HashMap<>();
         stageParamMap.put("stageDBName", stageResult.getDbName());
         stageParamMap.put("stageTableName", stageResult.getTableName());
-        getSqlMapClientTemplate().delete("Motley.insertStageDrop",
+        getSqlSession().delete("Motley.insertStageDrop",
                 stageParamMap);
     }
 
