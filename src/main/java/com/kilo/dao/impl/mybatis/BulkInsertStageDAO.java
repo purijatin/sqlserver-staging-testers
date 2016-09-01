@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -42,6 +43,8 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
             System.out.println("Started cyclie barrier for "+count);
         }
     }
+
+    static java.util.concurrent.atomic.AtomicLong time = new java.util.concurrent.atomic.AtomicLong(0);
 
     @Override
     @Transactional
@@ -86,10 +89,12 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         String fileUNCPath = uncPathPrefix
                 + file.getAbsolutePath().replace(File.separatorChar, '\\');
         stageParamMap.put("fileUNCPath", fileUNCPath);
+        long st = System.currentTimeMillis();
         getSqlSession().insert(
                 "com.kilo.dao.mybatis.mapper.Motley.bulkInsertStage",
                 stageParamMap);
-
+        time.addAndGet(System.currentTimeMillis() - st);
+        System.out.println("Time: "+time.get());
         // Politely cleanup
         FileUtils.deleteQuietly(file);
 
