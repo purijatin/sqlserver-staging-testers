@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -26,14 +28,21 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
 
     private String dirPath;
 
+    public static int count = 200;
+    static CyclicBarrier barrier ;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    static synchronized void set(){
+        if(barrier==null){
+            barrier = new CyclicBarrier(count);
+            System.out.println("Started cyclie barrier for "+count);
+        }
+    }
 
     @Override
     @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
-                             String templateTable) {
+            String templateTable) {
+        set();
         // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
 
@@ -56,6 +65,14 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
             FileUtils.write(file, content);
         } catch (IOException exception) {
             throw new IllegalArgumentException(exception);
+        }
+
+        try {
+            barrier.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (BrokenBarrierException e) {
+            e.printStackTrace();
         }
 
         // Use T-SQL to bulk insert
