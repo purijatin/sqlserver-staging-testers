@@ -33,7 +33,7 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
     @Override
     @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,
-            String templateTable) {
+                             String templateTable) {
         // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
 

@@ -38,7 +38,6 @@ public class MultiValueStaticInsertDAO extends SqlSessionDaoSupport implements S
 //            statement.addBatch(create);
             jdbcTemplate.update(create);
             List<List<MotleyObject>> partitions = Lists.partition(records, 1000);
-            ArrayList<String> ls = new ArrayList<>();
 
             for (List<MotleyObject> partition : partitions) {
                 StringBuilder str = new StringBuilder(1024);
@@ -75,8 +74,8 @@ public class MultiValueStaticInsertDAO extends SqlSessionDaoSupport implements S
         try {
 //            Statement statement = getSqlSession().getConnection().createStatement();
 //            statement.execute("drop table "+stageResult.getTableName());
-//            jdbcTemplate.update("drop table "+stageResult.getTableName());
-            Thread.sleep(25);
+            jdbcTemplate.update("drop table "+stageResult.getTableName());
+//            System.out.println(stageResult.getTableName());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
