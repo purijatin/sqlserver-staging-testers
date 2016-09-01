@@ -28,6 +28,11 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
 
     private String dirPath;
 
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+
     public static int count = 200;
     static CyclicBarrier barrier ;
 

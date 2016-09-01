@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
+import com.kilo.dao.impl.mybatis.BulkInsertStageDAO;
 import com.kilo.domain.MotleyObject;
 import com.kilo.domain.StageResult;
 
@@ -81,6 +82,7 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Test
     public void testParallelBulkMybatisStageDAO() throws Exception {
+        BulkInsertStageDAO.count = threads;
         LOG.info("Time taken " + getMethodName() + ": " +
                 runParallel(threads, () -> testScaffolding(bulkInsertMybatisStageDAO, getTestObjects(large))));
     }
