@@ -48,25 +48,25 @@ public class StageDAOTest extends BaseStageDAOTest {
 
     @Test
     public void testjdbctype(){
-
         BatchInsertStageDAO batch = (BatchInsertStageDAO) this.batchInsertMybatisStageDAO;
-        LOG.info("X jdbcType" + getMethodName() + ": " +average(3,() -> {
+//        batchInsertMybatisStageDAO.stage(getTestObjects(200_000), null, null);
+        average(1,() -> {
             long st = System.currentTimeMillis();
             MonitorInterceptor.count=0;
             batch.getAll();
             long l = System.currentTimeMillis() - st;
-            System.out.println("X "+l+". Count: "+MonitorInterceptor.count);
+            System.out.println("108 Columns "+l+". Count: "+MonitorInterceptor.count);
             return l;
-        }));
+        });
 
-        LOG.info("jdbcTypePresent " + getMethodName() + ": " +average(3,() -> {
+        average(1,() -> {
             long st = System.currentTimeMillis();
             MonitorInterceptor.count=0;
             batch.getAll2();
             long l = System.currentTimeMillis() - st;
-            System.out.println("present "+l+". Count: "+MonitorInterceptor.count);
+            System.out.println("Few Columns "+l+". Count: "+MonitorInterceptor.count);
             return l;
-        }));
+        });
     }
 
 

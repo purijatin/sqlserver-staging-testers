@@ -21,7 +21,6 @@ import static net.bytebuddy.matcher.ElementMatchers.*;
 
 public class AgentSetup {
     public static void setup(){
-        System.out.println("\n\n\n\n\n\n\nDone\n\n\n\n\n");
         new AgentBuilder.Default()
                 .type(named("org.apache.ibatis.type.TypeHandlerRegistry"))
                 .transform((builder, typeDescription, classLoader) ->
@@ -51,5 +50,6 @@ public class AgentSetup {
                     }
                 })
                 .installOnByteBuddyAgent();
+        System.out.println("Agent setup done!");
     }
 }
