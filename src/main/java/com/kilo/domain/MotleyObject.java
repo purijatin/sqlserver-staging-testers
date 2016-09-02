@@ -113,11 +113,11 @@ public class MotleyObject {
                 .append(BULK_INSERT_FIELD_SEPARATOR);
         bulkInsertString.append(name).append(BULK_INSERT_FIELD_SEPARATOR);
         bulkInsertString.append(id).append(BULK_INSERT_FIELD_SEPARATOR);
-        bulkInsertString.append(price.toPlainString()).append(
+        bulkInsertString.append(price.intValue()).append(
                 BULK_INSERT_FIELD_SEPARATOR);
-        bulkInsertString.append(amount.toPlainString()).append(
+        bulkInsertString.append(amount.intValue()).append(
                 BULK_INSERT_FIELD_SEPARATOR);
-        bulkInsertString.append(fxRate.toPlainString()).append(
+        bulkInsertString.append(fxRate.intValue()).append(
                 BULK_INSERT_FIELD_SEPARATOR);
         bulkInsertString.append((isValid != null) ? (isValid ? "1" : "0") : "")
                 .append(BULK_INSERT_FIELD_SEPARATOR);
