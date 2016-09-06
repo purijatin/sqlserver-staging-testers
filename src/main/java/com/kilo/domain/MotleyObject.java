@@ -107,20 +107,24 @@ public class MotleyObject {
     }
 
     public String toBulkInsertString() {
+        return toString(BULK_INSERT_FIELD_SEPARATOR);
+    }
+
+    public String toString(String separator){
         StringBuilder bulkInsertString = new StringBuilder();
         bulkInsertString.append(
                 DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS"))
-                .append(BULK_INSERT_FIELD_SEPARATOR);
-        bulkInsertString.append(name).append(BULK_INSERT_FIELD_SEPARATOR);
-        bulkInsertString.append(id).append(BULK_INSERT_FIELD_SEPARATOR);
+                .append(separator);
+        bulkInsertString.append(name).append(separator);
+        bulkInsertString.append(id).append(separator);
         bulkInsertString.append(price.intValue()).append(
-                BULK_INSERT_FIELD_SEPARATOR);
+                separator);
         bulkInsertString.append(amount.intValue()).append(
-                BULK_INSERT_FIELD_SEPARATOR);
+                separator);
         bulkInsertString.append(fxRate.intValue()).append(
-                BULK_INSERT_FIELD_SEPARATOR);
+                separator);
         bulkInsertString.append((isValid != null) ? (isValid ? "1" : "0") : "")
-                .append(BULK_INSERT_FIELD_SEPARATOR);
+                .append(separator);
         bulkInsertString.append(DateFormatUtils.formatUTC(knowledgeTime,
                 "yyyyMMdd hh:mm:ss.SSS"));
         return bulkInsertString.toString();
