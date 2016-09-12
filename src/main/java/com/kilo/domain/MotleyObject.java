@@ -107,15 +107,15 @@ public class MotleyObject {
     }
 
     public String toBulkInsertString() {
-        return toString(BULK_INSERT_FIELD_SEPARATOR);
+        return toString(BULK_INSERT_FIELD_SEPARATOR,"");
     }
 
-    public String toString(String separator){
+    public String toString(String separator, String quotes){
         StringBuilder bulkInsertString = new StringBuilder();
-        bulkInsertString.append(
-                DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS"))
+        bulkInsertString.append(quotes).append(
+                DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS")).append(quotes)
                 .append(separator);
-        bulkInsertString.append(name).append(separator);
+        bulkInsertString.append(quotes).append(name).append(quotes).append(separator);
         bulkInsertString.append(id).append(separator);
         bulkInsertString.append(price.intValue()).append(
                 separator);
@@ -125,8 +125,8 @@ public class MotleyObject {
                 separator);
         bulkInsertString.append((isValid != null) ? (isValid ? "1" : "0") : "")
                 .append(separator);
-        bulkInsertString.append(DateFormatUtils.formatUTC(knowledgeTime,
-                "yyyyMMdd hh:mm:ss.SSS"));
+        bulkInsertString.append(quotes).append(DateFormatUtils.formatUTC(knowledgeTime,
+                "yyyyMMdd hh:mm:ss.SSS")).append(quotes);
         return bulkInsertString.toString();
     }
 

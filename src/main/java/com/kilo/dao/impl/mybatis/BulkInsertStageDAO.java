@@ -38,18 +38,13 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
     static CyclicBarrier barrier ;
 
     static synchronized void set(){
-        if(barrier==null){
-            barrier = new CyclicBarrier(count);
-            System.out.println("Started cyclie barrier for "+count);
-        }
     }
 
     static java.util.concurrent.atomic.AtomicLong time = new java.util.concurrent.atomic.AtomicLong(0);
 
     @Override
     @Transactional
-    public StageResult stage(List<MotleyObject> records, String templateDB,
-            String templateTable) {
+    public StageResult stage(List<MotleyObject> records, String templateDB,String templateTable) {
         set();
         // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
@@ -58,15 +53,18 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
-        String create = "create table "+stageTableName+" (id int);";
+        String create = "create table "+stageTableName+" (date DATETIME, name VARCHAR(100), id INT, price INT, amount INT, fx_rate INT, is_valid BIT, knowledge_time DATETIME);";
+        long st = System.currentTimeMillis();
         jdbcTemplate.update(create);
+        final long creation = System.currentTimeMillis() - st;
 
         StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
-            content.append(rec.getId()).append(BULK_INSERT_ROW_SEPARATOR);
+            content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
         }
 
         File file;
+        st = System.currentTimeMillis();
         try {
             File dir = new File(dirPath);
             file = File.createTempFile(templateDB, stageTableName, dir);
@@ -74,14 +72,7 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         } catch (IOException exception) {
             throw new IllegalArgumentException(exception);
         }
-
-        try {
-            barrier.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (BrokenBarrierException e) {
-            e.printStackTrace();
-        }
+        final long networkTime = System.currentTimeMillis() - st;
 
         // Use T-SQL to bulk insert
         Map<String, Object> stageParamMap = new HashMap<>();
@@ -89,18 +80,19 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         String fileUNCPath = uncPathPrefix
                 + file.getAbsolutePath().replace(File.separatorChar, '\\');
         stageParamMap.put("fileUNCPath", fileUNCPath);
-        long st = System.currentTimeMillis();
+        st = System.currentTimeMillis();
         getSqlSession().insert(
                 "com.kilo.dao.mybatis.mapper.Motley.bulkInsertStage",
                 stageParamMap);
-        time.addAndGet(System.currentTimeMillis() - st);
-        System.out.println("Time: "+time.get());
-        // Politely cleanup
+        final long dbInner = System.currentTimeMillis() - st;
         FileUtils.deleteQuietly(file);
 
         StageResult result = new StageResult();
         result.setDbName(templateDB);
         result.setTableName(stageTableName);
+        result.setDbInnerTime(dbInner);
+        result.setNetworkTime(networkTime);
+        result.setTableCreationTime(creation);
         return result;
     }
 

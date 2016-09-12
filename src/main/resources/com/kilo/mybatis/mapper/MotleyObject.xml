@@ -9,8 +9,9 @@
     </insert>
     
     <insert id="insertStage" parameterType="java.util.Map">
-        INSERT INTO ${stageTableName}( id)
-        VALUES ( #{rec.id})
+        INSERT INTO ${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
+        VALUES (#{rec.date}, #{rec.name}, #{rec.id}, #{rec.price}, #{rec.amount},
+                #{rec.fxRate}, #{rec.isValid}, #{rec.knowledgeTime})
     </insert>
 
     <delete id="insertStageDrop" parameterType="java.util.Map">
@@ -20,6 +21,11 @@
     <insert id="bulkInsertStage" parameterType="java.util.Map">
         BULK INSERT ${stageTableName}
                FROM '${fileUNCPath}'
+    </insert>
+
+    <insert id="insertStats" parameterType="java.util.Map">
+        INSERT INTO sandbox.guest.run_stats (runID , runType , success , startTime , endTime, timeTaken, tableCreation , tableDrop , network , dbInner  )
+          VALUES (#{runID}, #{runType}, #{success}, #{startTime}, #{endTime},#{timeTaken}, #{tableCreation} , #{tableDrop} , #{network} , #{dbInner} )
     </insert>
 
 </mapper>

@@ -6,15 +6,6 @@
 
     <import resource="dataAccessContext.xml" />
 
-    <bean id="multiInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.MultiInsertStageDAO">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </bean>
-
-
-
-    <bean id="multiValuesInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.MultiValuesInsertStageDAO">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-    </bean>
 
     <bean id="mvStaticStageDAO" class="com.kilo.dao.impl.mybatis.MultiValueStaticInsertDAO">
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
@@ -24,11 +15,12 @@
         <property name="dataSource" ref="testerDataSource"/>
     </bean>
 
-
-
-    <bean id="multiValuesInsertJDBCStageDAO" class="com.kilo.dao.impl.jdbc.MultiValuesInsertStageDAO">
-        <property name="dataSource" ref="testerDataSource" />
+    <bean id="runStats" class="com.kilo.dao.impl.CommonDao">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
+
+
+
 
     <bean id="batchInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.BatchInsertStageDAO">
         <property name="sqlSessionTemplate" ref="batchSqlSessionTemplate" />
@@ -52,12 +44,6 @@
 
 
 
-    <bean id="openrowsetInsertMybatisStageDAO" class="com.kilo.dao.impl.mybatis.OpenrowsetInsertStageDAO">
-        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
-        <property name="uncPathPrefix" value="${com.kilo.unc.path.prefix}" />
-        <property name="dirPath" value="${com.kilo.dir.path}" />
-        <property name="formatFilePath" value="${com.kilo.fmt.file.location}" />
-    </bean>
 
 
 

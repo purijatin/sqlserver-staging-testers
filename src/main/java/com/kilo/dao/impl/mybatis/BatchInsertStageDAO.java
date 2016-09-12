@@ -29,9 +29,11 @@ public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);
         stageTableCreationParamMap.put("stageTableName", stageTableName);
+        long st = System.currentTimeMillis();
         getSqlSession().insert(
                 "com.kilo.dao.mybatis.mapper.Motley.createStageTable",
                 stageTableCreationParamMap);
+        final long creation = System.currentTimeMillis() - st;
 
         // Insert into the table
 
@@ -40,6 +42,7 @@ public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
 
         List<List<MotleyObject>> partitions = Lists.partition(records,
                 batchSize);
+        st = System.currentTimeMillis();
         for (List<MotleyObject> partition : partitions) {
             for (MotleyObject rec : partition) {
                 stageParamMap.put("rec", rec);
@@ -53,6 +56,8 @@ public class BatchInsertStageDAO extends SqlSessionDaoSupport implements
         StageResult result = new StageResult();
         result.setDbName(templateDB);
         result.setTableName(stageTableName);
+        result.setDbInnerTime(System.currentTimeMillis() - st);
+        result.setTableCreationTime(creation);
         return result;
     }
 
