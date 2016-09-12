@@ -111,7 +111,7 @@ public class MotleyObject {
     }
 
     public StringBuilder toString(String separator, String quotes){
-        StringBuilder bulkInsertString = new StringBuilder();
+        StringBuilder bulkInsertString = new StringBuilder(100);
         bulkInsertString.append(quotes).append(
                 DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS")).append(quotes)
                 .append(separator);
