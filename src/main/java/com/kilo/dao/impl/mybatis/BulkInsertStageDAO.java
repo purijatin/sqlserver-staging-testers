@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -55,9 +56,10 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         final long creation = System.currentTimeMillis() - st;
         final long bodyL = System.currentTimeMillis();
         StringBuilder content = new StringBuilder(1024*512);
-        for (MotleyObject rec : records) {
-            content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
-        }
+        records.stream().parallel().map(MotleyObject::toBulkInsertString).collect(Collectors.joining("BULK_INSERT_ROW_SEPARATOR"));
+//        for (MotleyObject rec : records) {
+//            content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
+//        }
         final long bodyEnd = System.currentTimeMillis() - bodyL;
 
         File file;
