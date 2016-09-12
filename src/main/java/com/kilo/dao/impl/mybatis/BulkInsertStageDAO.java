@@ -54,7 +54,7 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         jdbcTemplate.update(create);
         final long creation = System.currentTimeMillis() - st;
         final long bodyL = System.currentTimeMillis();
-        StringBuilder content = new StringBuilder();
+        StringBuilder content = new StringBuilder(1024*32);
         for (MotleyObject rec : records) {
             content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
         }
