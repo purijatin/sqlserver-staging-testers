@@ -13,9 +13,12 @@ public class StageResult {
     public OptionalLong dbInnerTime = OptionalLong.empty();
     public OptionalLong tableCreationTime = OptionalLong.empty();
     public OptionalLong tableDropTime = OptionalLong.empty();
+    public OptionalLong other = OptionalLong.empty();
     public long totalTime=-1L;
 
-
+    public void setOther(long other) {
+        this.other = OptionalLong.of(other);
+    }
 
     public long getTotalTime() {
         return totalTime;

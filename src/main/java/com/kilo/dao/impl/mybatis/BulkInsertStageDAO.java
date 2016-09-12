@@ -37,15 +37,11 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
     public static int count = 200;
     static CyclicBarrier barrier ;
 
-    static synchronized void set(){
-    }
-
     static java.util.concurrent.atomic.AtomicLong time = new java.util.concurrent.atomic.AtomicLong(0);
 
     @Override
     @Transactional
     public StageResult stage(List<MotleyObject> records, String templateDB,String templateTable) {
-        set();
         // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
 
@@ -57,11 +53,12 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         long st = System.currentTimeMillis();
         jdbcTemplate.update(create);
         final long creation = System.currentTimeMillis() - st;
-
+        final long bodyL = System.currentTimeMillis();
         StringBuilder content = new StringBuilder();
         for (MotleyObject rec : records) {
             content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
         }
+        final long bodyEnd = System.currentTimeMillis() - bodyL;
 
         File file;
         st = System.currentTimeMillis();
@@ -76,15 +73,14 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
 
         // Use T-SQL to bulk insert
         Map<String, Object> stageParamMap = new HashMap<>();
+        final long temp = System.currentTimeMillis();
         stageParamMap.put("stageTableName", stageTableName);
-        String fileUNCPath = uncPathPrefix
-                + file.getAbsolutePath().replace(File.separatorChar, '\\');
+        String fileUNCPath = "\\\\balysandboxdb1a\\pod\\importexport\\"+file.getName();
         stageParamMap.put("fileUNCPath", fileUNCPath);
-        st = System.currentTimeMillis();
         getSqlSession().insert(
                 "com.kilo.dao.mybatis.mapper.Motley.bulkInsertStage",
                 stageParamMap);
-        final long dbInner = System.currentTimeMillis() - st;
+        final long dbInner = System.currentTimeMillis() - temp;
         FileUtils.deleteQuietly(file);
 
         StageResult result = new StageResult();
@@ -93,6 +89,7 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         result.setDbInnerTime(dbInner);
         result.setNetworkTime(networkTime);
         result.setTableCreationTime(creation);
+        result.setOther(bodyEnd);
         return result;
     }
 

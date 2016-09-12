@@ -21,6 +21,12 @@ public class RunStats {
     public void setNetworkTime(OptionalLong networkTime) {
         this.networkTime = networkTime;
     }
+    public OptionalLong other = OptionalLong.empty();
+
+    public void setOther(OptionalLong other) {
+        this.other = other;
+    }
+
 
     public void setDbInnerTime(OptionalLong dbInnerTime) {
         this.dbInnerTime = dbInnerTime;

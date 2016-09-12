@@ -106,11 +106,11 @@ public class MotleyObject {
         this.knowledgeTime = knowledgeTime;
     }
 
-    public String toBulkInsertString() {
+    public StringBuilder toBulkInsertString() {
         return toString(BULK_INSERT_FIELD_SEPARATOR,"");
     }
 
-    public String toString(String separator, String quotes){
+    public StringBuilder toString(String separator, String quotes){
         StringBuilder bulkInsertString = new StringBuilder();
         bulkInsertString.append(quotes).append(
                 DateFormatUtils.formatUTC(date, "yyyyMMdd hh:mm:ss.SSS")).append(quotes)
@@ -127,7 +127,7 @@ public class MotleyObject {
                 .append(separator);
         bulkInsertString.append(quotes).append(DateFormatUtils.formatUTC(knowledgeTime,
                 "yyyyMMdd hh:mm:ss.SSS")).append(quotes);
-        return bulkInsertString.toString();
+        return bulkInsertString;
     }
 
     public String toValueString(){

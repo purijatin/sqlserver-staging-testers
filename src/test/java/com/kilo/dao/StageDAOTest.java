@@ -89,6 +89,7 @@ public class StageDAOTest extends BaseStageDAOTest {
                 ob.setNetworkTime(stageResult.networkTime);
                 ob.setTableCreationTime(stageResult.tableCreationTime);
                 ob.setTableDropTime(stageResult.tableDropTime);
+                ob.setOther(stageResult.other);
                 stats.insert(ob);
                 return stageResult.getTotalTime();
             });

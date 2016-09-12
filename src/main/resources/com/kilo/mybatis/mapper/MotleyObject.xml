@@ -24,8 +24,8 @@
     </insert>
 
     <insert id="insertStats" parameterType="java.util.Map">
-        INSERT INTO sandbox.guest.run_stats (runID , runType , success , startTime , endTime, timeTaken, tableCreation , tableDrop , network , dbInner  )
-          VALUES (#{runID}, #{runType}, #{success}, #{startTime}, #{endTime},#{timeTaken}, #{tableCreation} , #{tableDrop} , #{network} , #{dbInner} )
+        INSERT INTO sandbox.guest.run_stats (runID , runType , success , startTime , endTime, timeTaken, tableCreation , tableDrop , network , dbInner , others )
+          VALUES (#{runID}, #{runType}, #{success}, #{startTime}, #{endTime},#{timeTaken}, #{tableCreation} , #{tableDrop} , #{network} , #{dbInner} ,#{others})
     </insert>
 
 </mapper>

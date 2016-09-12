@@ -24,6 +24,7 @@ public class CommonDao extends SqlSessionDaoSupport{
         stats.networkTime.ifPresent(x -> map.put("network", x));
         stats.tableCreationTime.ifPresent(x -> map.put("tableCreation", x));
         stats.tableDropTime.ifPresent(x -> map.put("tableDrop", x));
+        stats.other.ifPresent(x -> map.put("others",x));
 
         getSqlSession().insert("com.kilo.dao.mybatis.mapper.Motley.insertStats", map);
         getSqlSession().flushStatements();
