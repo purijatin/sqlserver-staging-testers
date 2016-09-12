@@ -56,10 +56,10 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         final long creation = System.currentTimeMillis() - st;
         final long bodyL = System.currentTimeMillis();
         StringBuilder content = new StringBuilder(1024*512);
-        records.stream().parallel().map(MotleyObject::toBulkInsertString).collect(Collectors.joining("BULK_INSERT_ROW_SEPARATOR"));
-//        for (MotleyObject rec : records) {
-//            content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
-//        }
+//        records.stream().parallel().map(MotleyObject::toBulkInsertString).collect(Collectors.joining("BULK_INSERT_ROW_SEPARATOR"));
+        for (MotleyObject rec : records) {
+            content.append(rec.toBulkInsertString()).append(BULK_INSERT_ROW_SEPARATOR);
+        }
         final long bodyEnd = System.currentTimeMillis() - bodyL;
 
         File file;
