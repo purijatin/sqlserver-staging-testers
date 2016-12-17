@@ -8,19 +8,23 @@
 --           INTO ${stageTableName}
 --           FROM ${templateDB}.guest.${templateTable}
 --
-      create table #${stageTableName}
-      (date DATETIME, name VARCHAR(100), id INT, price INT, amount INT, fx_rate INT, is_valid BIT, knowledge_time DATETIME)
+      create table sandbox..${stageTableName}
+      (date DATETIME, name VARCHAR(100), id INT, price INT, amount INT, fx_rate INT, is_valid BIT, knowledge_time DATETIME,
+        a1 DATETIME,a2 DATETIME,a3 DATETIME,a4 DATETIME,a5 DATETIME,a6 DATETIME,a7 DATETIME,a8 DATETIME,a9 DATETIME,a10 DATETIME,a11 DATETIME,a12 DATETIME,a13 DATETIME,a14 DATETIME,a15 DATETIME,a16 DATETIME,a17 DATETIME,a18 DATETIME,a19 DATETIME,a20 DATETIME,a21 DATETIME,a22 DATETIME,a23 DATETIME,a24 DATETIME,a25 DATETIME,a26 DATETIME,a27 DATETIME,a28 DATETIME,a29 DATETIME,a30 DATETIME,a31 DATETIME,a32 DATETIME,a33 DATETIME,a34 DATETIME,a35 DATETIME)
     </insert>
     
     <insert id="insertStage" parameterType="java.util.Map">
-        INSERT INTO ${stageTableName}( id)
-        VALUES ( #{rec.id})
+        INSERT INTO sandbox..${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time,
+        a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35)
+        VALUES (#{item.date}, #{item.name}, #{item.id}, #{item.price}, #{item.amount},#{item.fxRate}, #{item.isValid}, #{item.knowledgeTime},
+        #{item.a1},#{item.a2},#{item.a3},#{item.a4},#{item.a5},#{item.a6},#{item.a7},#{item.a8},#{item.a9},#{item.a10},#{item.a11},#{item.a12},#{item.a13},#{item.a14},#{item.a15},#{item.a16},#{item.a17},#{item.a18},#{item.a19},#{item.a20},#{item.a21},#{item.a22},#{item.a23},#{item.a24},#{item.a25},#{item.a26},#{item.a27},#{item.a28},#{item.a29},#{item.a30},#{item.a31},#{item.a32},#{item.a33},#{item.a34},#{item.a35})
     </insert>
 
     <insert id="multiValuesInsertStage" parameterType="java.util.Map">
-        INSERT INTO ${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time)
+        INSERT INTO ${stageTableName}(date, name, id, price, amount, fx_rate, is_valid, knowledge_time,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30,a31,a32,a33,a34,a35)
         VALUES <foreach collection="records" item="item" separator=",">
-        (#{item.date}, #{item.name}, #{item.id}, #{item.price}, #{item.amount},#{item.fxRate}, #{item.isValid}, #{item.knowledgeTime})
+        (#{item.date}, #{item.name}, #{item.id}, #{item.price}, #{item.amount},#{item.fxRate}, #{item.isValid}, #{item.knowledgeTime},
+        #{item.a1},#{item.a2},#{item.a3},#{item.a4},#{item.a5},#{item.a6},#{item.a7},#{item.a8},#{item.a9},#{item.a10},#{item.a11},#{item.a12},#{item.a13},#{item.a14},#{item.a15},#{item.a16},#{item.a17},#{item.a18},#{item.a19},#{item.a20},#{item.a21},#{item.a22},#{item.a23},#{item.a24},#{item.a25},#{item.a26},#{item.a27},#{item.a28},#{item.a29},#{item.a30},#{item.a31},#{item.a32},#{item.a33},#{item.a34},#{item.a35})
         </foreach>
     </insert>
 

@@ -1,8 +1,11 @@
 
 package com.kilo.dao;
 
+import java.lang.reflect.*;
+import java.sql.*;
 import java.text.ParseException;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -16,6 +19,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +48,11 @@ public class StageDAOTest extends BaseStageDAOTest {
 //    @Resource(name = "multiInsertJDBCStageDAO")
 //    private StageDAO multiInsertJDBCStageDAO;
 //
-    @Resource(name = "multiValuesInsertMybatisStageDAO")
-    private StageDAO multiValuesInsertMybatisStageDAO;
-
-    @Resource(name = "mvStaticStageDAO")
-    private StageDAO mvStaticStageDAO;
+//    @Resource(name = "multiValuesInsertMybatisStageDAO")
+//    private StageDAO multiValuesInsertMybatisStageDAO;
+//
+//    @Resource(name = "mvStaticStageDAO")
+//    private StageDAO mvStaticStageDAO;
 //
 //    @Resource(name = "multiValuesInsertIbatisStageDAO")
 //    private StageDAO multiValuesInsertIbatisStageDAO;
@@ -133,10 +139,10 @@ public class StageDAOTest extends BaseStageDAOTest {
 //    }
 //
 //    @Test
-    public void testMultiValuesMybatisStageDAO() throws ParseException {
-        LOG.info("Time taken " + getMethodName() + ": " +
-                testScaffolding(multiValuesInsertMybatisStageDAO, getTestObjects(50), getTestObjects(50)));
-    }
+//    public void testMultiValuesMybatisStageDAO() throws ParseException {
+//        LOG.info("Time taken " + getMethodName() + ": " +
+//                testScaffolding(multiValuesInsertMybatisStageDAO, getTestObjects(50), getTestObjects(50)));
+//    }
 //
 //    @Test
 //    public void testMultiValuesIbatisStageDAO() throws ParseException {
@@ -156,46 +162,47 @@ public class StageDAOTest extends BaseStageDAOTest {
 //                anotherReallySmallTestRecords);
 //    }
 
+
     static final int large = 200_000;
     static final int avgruns = 5;
-    static final int threads = 100;
+    static final int threads = 35;
 
-    @Test
-    public void testStaticMVStageDAO() throws ParseException {
-        LOG.info("Time taken " + getMethodName() + ": " +
-                average(avgruns, () -> testScaffolding(mvStaticStageDAO, getTestObjects(1000), getTestObjects(large))));
-    }
-
-    @Test
-    public void testParallelStaticMVStage() throws Exception {
-        LOG.info("Time taken " + getMethodName() + ": " +
-                runParallel(threads, () -> testScaffolding(mvStaticStageDAO, getTestObjects(1000), getTestObjects(large))));
-    }
-
-    //
+//    @Test
+//    public void testStaticMVStageDAO() throws ParseException {
+//        LOG.info("Time taken " + getMethodName() + ": " +
+//                average(avgruns, () -> testScaffolding(mvStaticStageDAO, getTestObjects(1000), getTestObjects(large))));
+//    }
+//
+//    @Test
+//    public void testParallelStaticMVStage() throws Exception {
+//        LOG.info("Time taken " + getMethodName() + ": " +
+//                runParallel(threads, () -> testScaffolding(mvStaticStageDAO, getTestObjects(1000), getTestObjects(large))));
+//    }
+//
+//    //
     @Test
     public void testBatchMybatisStageDAO() throws ParseException {
         LOG.info("Time taken " + getMethodName() + ": " +
-                average(avgruns, () -> testScaffolding(batchInsertMybatisStageDAO, getTestObjects(1000), getTestObjects(large))));
+                average(avgruns, () -> testScaffolding(batchInsertMybatisStageDAO, getTestObjects(large), getTestObjects(large))));
     }
 
-    @Test
-    public void testParallelBatchMybatisStageDAO() throws Exception {
-        LOG.info("Time taken " + getMethodName() + ": " +
-                runParallel(threads, () -> testScaffolding(batchInsertMybatisStageDAO, getTestObjects(1000), getTestObjects(large))));
-    }
-
+//    @Test
+//    public void testParallelBatchMybatisStageDAO() throws Exception {
+//        LOG.info("Time taken " + getMethodName() + ": " +
+//                runParallel(threads, () -> testScaffolding(batchInsertMybatisStageDAO, getTestObjects(1000), getTestObjects(large))));
+//    }
+//
     @Test
     public void testBulkMybatisStageDAO() throws Exception {
         LOG.info("Time taken " + getMethodName() + ": " +
                 average(avgruns, () -> testScaffolding(bulkInsertMybatisStageDAO, getTestObjects(1000),getTestObjects(large))));
     }
-
-    @Test
-    public void testParallelBulkMybatisStageDAO() throws Exception {
-        LOG.info("Time taken " + getMethodName() + ": " +
-                runParallel(threads, () -> testScaffolding(bulkInsertMybatisStageDAO, getTestObjects(1000),getTestObjects(large))));
-    }
+//
+//    @Test
+//    public void testParallelBulkMybatisStageDAO() throws Exception {
+//        LOG.info("Time taken " + getMethodName() + ": " +
+//                runParallel(threads, () -> testScaffolding(bulkInsertMybatisStageDAO, getTestObjects(1000),getTestObjects(large))));
+//    }
 
     private double runParallel(int parallel, Supplier<Long> run) throws Exception {
         ExecutorService exec = Executors.newCachedThreadPool();
@@ -208,6 +215,13 @@ public class StageDAOTest extends BaseStageDAOTest {
     private double average(int runs, Supplier<Long> run) {
         return IntStream.rangeClosed(1, runs).mapToLong(x -> run.get()).average().getAsDouble();
     }
+
+    private long max(int runs, Supplier<Long> run) {
+        return IntStream.rangeClosed(1, runs).mapToLong(x -> run.get()).max().getAsLong();
+    }
+
+
+
 //
 //    @Test
 //    public void testBatchIbatisStageDAO() throws ParseException {
@@ -345,3 +359,5 @@ public class StageDAOTest extends BaseStageDAOTest {
 
 
 }
+
+

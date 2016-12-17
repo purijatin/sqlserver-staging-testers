@@ -22,6 +22,7 @@ public class MotleyObject {
 
     private BigDecimal fxRate;
 
+    
     /**
      * Intentionally chosen non-primitive
      */
@@ -41,6 +42,42 @@ public class MotleyObject {
         this.isValid = isValid;
         this.knowledgeTime = knowledgeTime;
     }
+
+    Date a1 = new Date();
+    Date a2 = new Date();
+    Date a3 = new Date();
+    Date a4 = new Date();
+    Date a5 = new Date();
+    Date a6 = new Date();
+    Date a7 = new Date();
+    Date a8 = new Date();
+    Date a9 = new Date();
+    Date a10 = new Date();
+    Date a11 = new Date();
+    Date a12 = new Date();
+    Date a13 = new Date();
+    Date a14 = new Date();
+    Date a15 = new Date();
+    Date a16 = new Date();
+    Date a17 = new Date();
+    Date a18 = new Date();
+    Date a19 = new Date();
+    Date a20 = new Date();
+    Date a21 = new Date();
+    Date a22 = new Date();
+    Date a23 = new Date();
+    Date a24 = new Date();
+    Date a25 = new Date();
+    Date a26 = new Date();
+    Date a27 = new Date();
+    Date a28 = new Date();
+    Date a29 = new Date();
+    Date a30 = new Date();
+    Date a31 = new Date();
+    Date a32 = new Date();
+    Date a33 = new Date();
+    Date a34 = new Date();
+    Date a35 = new Date();
 
     public Date getDate() {
         return date;

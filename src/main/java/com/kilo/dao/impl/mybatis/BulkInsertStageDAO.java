@@ -37,6 +37,7 @@ public class BulkInsertStageDAO extends SqlSessionDaoSupport implements
         // Create the table from the template
         String stageTableName = StageUtils.getStageTableName(templateTable);
 
+
         Map<String, Object> stageTableCreationParamMap = new HashMap<>();
         stageTableCreationParamMap.put("templateDB", templateDB);
         stageTableCreationParamMap.put("templateTable", templateTable);

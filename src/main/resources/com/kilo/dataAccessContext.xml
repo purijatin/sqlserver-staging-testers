@@ -23,7 +23,7 @@
 
     <bean id="testerDataSource" class="deshaw.moss.service.dao.infra.MossDataSource">
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
-        <property name="url" value="jdbc:jtds:sqlserver://DBCORE1.balysandbox.c.ia55.net:1433/sandbox;useKerberos=true" />
+        <property name="url" value="jdbc:jtds:sqlserver://DBCORE1.baly.c.ia55.net:1433/sandbox;useKerberos=true" />
         <!--<property name="url" value="jdbc:jtds:sqlserver://dbrecondevnyc:1433/sandbox;useKerberos=true" />-->
         <property name="maxActive" value="100" />
         <property name="validationQuery" value="select 1" />
@@ -31,8 +31,8 @@
         <property name="removeAbandoned" value="true" />
         <property name="testWhileIdle" value="true" />
         <property name="applicationName" value="Stage prac" />
-        <property name="username" value="${com.kilo.username}" />
-        <property name="password" value="${com.kilo.password}" />
+        <property name="username" value="reconciler" />
+        <property name="password" value="KiyVuA9" />
     </bean>
 
     <!--<bean id="testerDataSource" class="deshaw.moss.service.dao.infra.MossDataSource">-->
